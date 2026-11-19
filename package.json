@@ -8,7 +8,11 @@
     "build": "next build --webpack",
     "start": "next start",
     "typecheck": "next typegen && tsc --noEmit",
-    "test": "tsx --test tests/*.test.tsx"
+    "test": "tsx --test tests/*.test.tsx",
+    "gpu": "node scripts/start-gpu.mjs",
+    "demo": "node scripts/start-demo.mjs",
+    "test:gpu-web": "node --import tsx scripts/test-gpu-web.mjs",
+    "test:outfits": "node --import tsx scripts/test-gpu-web.mjs outfits"
   },
   "dependencies": {
     "lucide-react": "^1.31.0",
@@ -17,6 +21,7 @@
     "react-dom": "19.2.6"
   },
   "devDependencies": {
+    "@playwright/test": "^1.65.0",
     "@tailwindcss/postcss": "4.2.1",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.8",

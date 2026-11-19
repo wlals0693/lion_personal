@@ -7,6 +7,7 @@ import type { Outfit } from '@/lib/types';
 import { wardrobeApi } from '@/lib/mock-api';
 import { localDate, toggleValue, uid } from '@/lib/utils';
 import { useWardrobe } from './store';
+import { AiOutfitEvaluator } from './ai-outfits';
 import {
   Empty,
   ErrorBox,
@@ -31,6 +32,7 @@ export function Outfits() {
     [retry, setRetry] = useState(0),
     [offset, setOffset] = useState(0);
   const fixed = state.garments.find((g) => g.id === anchor);
+  const [aiActive, setAiActive] = useState(false);
   useEffect(() => {
     let current = true;
     setBusy(true);
@@ -76,7 +78,9 @@ export function Outfits() {
             </button>
           ))}
         </div>
-        <MockLabel>추천은 체험용 예시예요</MockLabel>
+        <Link className="text-button" href="/demo/outfits">
+          예시 옷장 AI 데모
+        </Link>
       </div>
       {anchor && (
         <div className="anchor-strip">
@@ -85,7 +89,15 @@ export function Outfits() {
           <Link href="/outfits">고정 해제</Link>
         </div>
       )}
-      {busy ? (
+      <AiOutfitEvaluator
+        items={state.garments}
+        occasion={occasion}
+        anchor={anchor}
+        onEvaluated={setAiActive}
+        likes={state.likes}
+        onLike={(id) => update((s) => ({ ...s, likes: toggleValue(s.likes, id) }))}
+      />
+      {aiActive ? null : busy ? (
         <Loading text="내 옷으로 조합을 준비하고 있어요" />
       ) : error ? (
         <ErrorBox message={error} retry={() => setRetry((v) => v + 1)} />
@@ -98,7 +110,9 @@ export function Outfits() {
       ) : (
         <>
           <div className="section-heading">
-            <span className="subtle">지금 옷장으로 만든 예시 조합</span>
+            <span className="subtle">
+              평가 전 코디 후보 · 위 버튼으로 실제 AI 평가를 받아보세요
+            </span>
             <button
               className="button secondary"
               disabled={results.length <= 1}
@@ -152,7 +166,7 @@ export function Outfits() {
             ))}
           </div>
           <p className="caption">
-            코디 조합과 순서는 Mock 데이터입니다. 실제 호환도나 개인화 성능을 나타내지 않아요.
+            이 목록은 카테고리로 구성한 평가 전 후보예요. 아직 어울림 순서로 정렬하지 않았어요.
           </p>
         </>
       )}
@@ -207,7 +221,7 @@ export function OutfitDetail() {
       <div className="outfit-detail-layout">
         <OutfitCollage outfit={outfit} items={state.garments} large />
         <section>
-          <MockLabel>예시 코디</MockLabel>
+          <MockLabel>코디 구성 상세 · AI 판단은 추천 목록에서 확인</MockLabel>
           <p className="eyebrow">{occasion}</p>
           <h1>{outfit.title}</h1>
           <p className="subtle">익숙한 옷도 함께 입는 조합에 따라 새로워져요.</p>

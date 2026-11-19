@@ -1,0 +1,327 @@
+{
+  "date": "2026-11-16T16:23:34.083Z",
+  "demoSeconds": 17.09210000000149,
+  "demo": {
+    "results": [
+      {
+        "id": "outfit:t001:b001:s001",
+        "evaluation": {
+          "visual": "cohesive",
+          "context": "suitable",
+          "reasons": [
+            {
+              "aspect": "color",
+              "observation": "검은색 티셔츠와 회색 청바지의 어두운 톤이 조화를 이루며 일상적인 분위기를 연출합니다."
+            },
+            {
+              "aspect": "shape",
+              "observation": "짧은 소매 티셔츠와 허리 높은 청바지의 실루엣이 서로를 보완하는 형태를 보입니다."
+            },
+            {
+              "aspect": "texture",
+              "observation": "티셔츠의 평면적 인쇄와 청바지의 질감이 서로 다른 질감을 제공하며 조화를 이룹니다."
+            }
+          ],
+          "contextReason": "일상·산책은 편안하고 자연스러운 옷차림을 요구하는 상황입니다.",
+          "limitations": [
+            "옷의 실제 착용감이나 피팅 상태는 확인할 수 없습니다.",
+            "옷의 실제 재질이나 온도 조건에서의 적합성은 판단할 수 없습니다."
+          ]
+        }
+      },
+      {
+        "id": "outfit:t002:b003:s002",
+        "evaluation": {
+          "visual": "cohesive",
+          "context": "suitable",
+          "reasons": [
+            {
+              "aspect": "color",
+              "observation": "흰색 티셔츠와 회색 반바지의 색상 조합은 일상적인 활동에 적합한 중립적이고 균형 잡힌 색상입니다."
+            },
+            {
+              "aspect": "shape",
+              "observation": "티셔츠의 직선형 실루엣과 반바지의 편안한 실루엣은 서로를 보완하는 형태로 조화를 이룹니다."
+            },
+            {
+              "aspect": "texture",
+              "observation": "티셔츠의 부드러운 질감과 반바지의 코튼 같은 질감은 일상적인 활동에 적합한 편안함을 제공합니다."
+            }
+          ],
+          "contextReason": "일상·산책은 편안하고 자유로운 옷차림을 요구하는 활동입니다.",
+          "limitations": [
+            "옷의 실제 착용감이나 피부에 미치는 영향은 판단할 수 없습니다.",
+            "옷의 실제 온도 조절 능력이나 기능성은 판단할 수 없습니다."
+          ]
+        }
+      },
+      {
+        "id": "outfit:t003:b004:s003",
+        "evaluation": {
+          "visual": "cohesive",
+          "context": "suitable",
+          "reasons": [
+            {
+              "aspect": "color",
+              "observation": "청바지와 회색 반바지의 색상은 서로 대비되며 일상적인 조합으로 보임"
+            },
+            {
+              "aspect": "pattern",
+              "observation": "반바지는 그래픽 패턴이 있고, 셔츠는 단색으로, 패턴 대비가 자연스러움"
+            },
+            {
+              "aspect": "shape",
+              "observation": "셔츠는 긴 소매와 허리 높은 형태로, 반바지는 허리 높은 형태로, 상하 조합이 균형 잡힘"
+            }
+          ],
+          "contextReason": "일상·산책은 편안하고 자유로운 옷차림을 요구하므로 이 조합은 적절함",
+          "limitations": [
+            "옷의 실제 착용감이나 실루엣은 판단 불가",
+            "옷의 소재나 온도 보호 능력은 판단 불가"
+          ]
+        }
+      },
+      {
+        "id": "outfit:t004:b005:s004",
+        "evaluation": {
+          "visual": "review",
+          "context": "unsuitable",
+          "reasons": [
+            {
+              "aspect": "color",
+              "observation": "검은색 티셔츠와 검은색 정장 바지의 색상이 일치하지 않아 조화롭지 않음"
+            },
+            {
+              "aspect": "shape",
+              "observation": "티셔츠의 둥근 턱선과 정장 바지의 직선적인 형태가 서로 대비됨"
+            },
+            {
+              "aspect": "texture",
+              "observation": "티셔츠의 부드러운 질감과 정장 바지의 단단한 질감이 대조됨"
+            }
+          ],
+          "contextReason": "일상 산책은 편안하고 자연스러운 옷차림이 적절하지 않음",
+          "limitations": [
+            "옷차림의 실제 착용 상태는 확인 불가",
+            "옷의 실제 크기, 재질, 온도 조건은 판단 불가능함"
+          ]
+        }
+      },
+      {
+        "id": "outfit:t003:b005:s004",
+        "evaluation": {
+          "visual": "review",
+          "context": "suitable",
+          "reasons": [
+            {
+              "aspect": "color",
+              "observation": "청바지와 검은색 셔츠는 어두운 톤으로 일관된 색상이지만, 셔츠의 청색은 바지의 검정색과 대비되어 시각적으로 균형을 이루지 못함."
+            },
+            {
+              "aspect": "shape",
+              "observation": "셔츠는 짧은 소매와 허리선이 뚜렷한 형태로, 바지는 직선적인 실루엣으로 전체적으로 형태가 조화롭지 않음."
+            },
+            {
+              "aspect": "texture",
+              "observation": "셔츠는 천연 소재의 질감을 보여주며, 바지는 매끄러운 표면으로 두 가지의 질감이 서로 대조되어 시각적 균형을 이루지 못함."
+            }
+          ],
+          "contextReason": "일상·산책은 다양한 옷차림이 가능하며, 이 조합은 일상적인 활동에 적합한 옷차림이 아님.",
+          "limitations": [
+            "옷의 실제 착용감과 실루엣은 볼 수 없음",
+            "옷의 소재와 온도 보호 능력은 판단 불가능함"
+          ]
+        }
+      },
+      {
+        "id": "outfit:t004:b004:s003",
+        "evaluation": {
+          "visual": "review",
+          "context": "unsuitable",
+          "reasons": [
+            {
+              "aspect": "color",
+              "observation": "검은색 상의와 회색 하의의 색상 대비가 극단적이다."
+            },
+            {
+              "aspect": "pattern",
+              "observation": "상의는 단색으로, 하의는 무늬가 많아서 시각적 균형이 어려울 수 있다."
+            },
+            {
+              "aspect": "shape",
+              "observation": "상의는 짧은 소매로, 하의는 허리 높은 반바지로 형태가 서로 다른 편이다."
+            }
+          ],
+          "contextReason": "일상 산책은 편안하고 자연스러운 스타일이 적합하지만, 이 조합은 너무 강렬한 대비와 형태 차이로 적절하지 않다.",
+          "limitations": [
+            "옷의 실제 착용감이나 실루엣은 판단 불가",
+            "옷의 소재나 온도 조건에 대한 정보 없음"
+          ]
+        }
+      }
+    ],
+    "seconds": 16.797,
+    "protocol": "outfit-v1-contact-sheet",
+    "model": "Qwen3-VL-4B-Q4_K_M"
+  },
+  "wardrobe": {
+    "results": [
+      {
+        "id": "outfit:t003:b001:s001",
+        "evaluation": {
+          "visual": "cohesive",
+          "context": "suitable",
+          "reasons": [
+            {
+              "aspect": "color",
+              "observation": "청바지와 셔츠는 어두운 톤으로 조화롭게 어울림"
+            },
+            {
+              "aspect": "shape",
+              "observation": "셔츠는 짧은 소매로 편안한 실루엣, 바지는 편안한 빈티지 스타일"
+            },
+            {
+              "aspect": "texture",
+              "observation": " denim 소재의 셔츠와 바지가 서로의 질감을 보완함"
+            }
+          ],
+          "contextReason": "일상 산책에 적합한 편안하고 자연스러운 스타일",
+          "limitations": [
+            "옷의 실제 착용 피팅 상태는 확인 불가",
+            "실제 온도나 날씨 조건은 판단 불가능함"
+          ]
+        }
+      },
+      {
+        "id": "outfit:t003:b003:s002",
+        "evaluation": {
+          "visual": "cohesive",
+          "context": "suitable",
+          "reasons": [
+            {
+              "aspect": "color",
+              "observation": "청바지와 회색 반바지의 색상이 어울리며, 흰색 운동화는 전체적으로 조화를 이룹니다."
+            },
+            {
+              "aspect": "shape",
+              "observation": "반바지의 허리 높이와 셔츠의 길이가 서로 다른 형태를 가지고 있지만, 일상적인 옷차림으로 자연스럽게 조합됩니다."
+            }
+          ],
+          "contextReason": "일상·산책은 편안하고 자연스러운 옷차림을 요구하는 상황입니다.",
+          "limitations": [
+            "옷차림의 실제 착용감이나 실루엣은 판단할 수 없습니다.",
+            "옷의 실제 소재나 온도 조건은 판단할 수 없습니다."
+          ]
+        }
+      },
+      {
+        "id": "outfit:t003:b004:s003",
+        "evaluation": {
+          "visual": "cohesive",
+          "context": "suitable",
+          "reasons": [
+            {
+              "aspect": "color",
+              "observation": "청바지와 회색 반바지의 색상은 서로 대비되며 일상적인 조합으로 보임"
+            },
+            {
+              "aspect": "pattern",
+              "observation": "반바지는 그래픽 패턴이 있고, 셔츠는 단색으로, 패턴 대비가 자연스러움"
+            },
+            {
+              "aspect": "shape",
+              "observation": "셔츠는 긴 소매와 허리 높은 형태로, 반바지는 허리 높은 형태로, 상하 조합이 균형 잡힘"
+            }
+          ],
+          "contextReason": "일상·산책은 편안하고 자유로운 옷차림을 요구하므로 이 조합은 적절함",
+          "limitations": [
+            "옷의 실제 착용감이나 실루엣은 판단 불가",
+            "옷의 소재나 온도 보호 능력은 판단 불가"
+          ]
+        }
+      },
+      {
+        "id": "outfit:t003:b004:s004",
+        "evaluation": {
+          "visual": "review",
+          "context": "unsuitable",
+          "reasons": [
+            {
+              "aspect": "color",
+              "observation": "청바지와 블랙 브레드가 대비되는 색상이 일상적이고 편안한 분위기를 연출하지 못함"
+            },
+            {
+              "aspect": "pattern",
+              "observation": "그레이 허리띠가 있는 반바지의 패턴이 블랙 브레드와의 조화를 이루지 못함"
+            },
+            {
+              "aspect": "shape",
+              "observation": "반바지의 형태가 블랙 브레드와의 조화를 이루지 못함"
+            }
+          ],
+          "contextReason": "일상·산책은 편안하고 자연스러운 옷차림이 적절하지만, 이 옷들은 서로 어울리지 않음",
+          "limitations": [
+            "옷차림의 실제 착용감이나 실루엣을 판단할 수 없음",
+            "옷의 실제 재질이나 온도 조건을 판단할 수 없음"
+          ]
+        }
+      },
+      {
+        "id": "outfit:t003:b003:s004",
+        "evaluation": {
+          "visual": "review",
+          "context": "unsuitable",
+          "reasons": [
+            {
+              "aspect": "texture",
+              "observation": " denim 셔츠는 냉감한 질감을 가지고 있고, 스웨트 반바지는 부드러운 질감을 가진다."
+            },
+            {
+              "aspect": "shape",
+              "observation": " 셔츠는 직선적인 형태를 가지고 있고, 반바지는 편안한 형태를 가진다."
+            },
+            {
+              "aspect": "color",
+              "observation": " 셔츠는 어두운 파란색이고, 반바지는 어두운 회색이며, 신발은 검은색이다."
+            }
+          ],
+          "contextReason": "일상 산책에 어울리지 않는 대비가 강한 옷차림이다.",
+          "limitations": [
+            "옷의 실제 착용감과 실루엣은 알 수 없다.",
+            "옷의 온도 조절 능력이나 기능성은 판단할 수 없다."
+          ]
+        }
+      },
+      {
+        "id": "outfit:t003:b001:s003",
+        "evaluation": {
+          "visual": "cohesive",
+          "context": "suitable",
+          "reasons": [
+            {
+              "aspect": "color",
+              "observation": "청바지와 셔츠는 모두 어두운 톤으로 일관된 색상 톤을 유지하고 있습니다."
+            },
+            {
+              "aspect": "shape",
+              "observation": "셔츠는 짧은 소매와 직선적인 실루엣을 가지고 있으며, 바지는 편안한 빈티지 스타일의 허리선을 보여줍니다."
+            },
+            {
+              "aspect": "texture",
+              "observation": "셔츠는 천연 소재의 질감을 보여주며, 바지는 데님 소재의 질감을 보여줍니다."
+            }
+          ],
+          "contextReason": "일상·산책은 편안하고 자연스러운 옷차림을 요구합니다.",
+          "limitations": [
+            "옷의 실제 착용 피팅 상태는 확인할 수 없습니다.",
+            "옷의 실제 온도 조건이나 옷감의 편안함은 판단할 수 없습니다."
+          ]
+        }
+      }
+    ],
+    "seconds": 15.546,
+    "protocol": "outfit-v1-contact-sheet",
+    "model": "Qwen3-VL-4B-Q4_K_M"
+  },
+  "errors": []
+}

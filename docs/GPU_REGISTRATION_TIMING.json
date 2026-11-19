@@ -1,0 +1,48 @@
+{
+  "measuredAt": "2026-11-09T16:01:17.621Z",
+  "browser": "Chromium headless",
+  "mode": "local production build",
+  "method": "upload button click to second animation frame after populated form commit; automated file chooser",
+  "measurements": [
+    {
+      "id": "photo_000",
+      "kind": "shirt",
+      "sleeve": "short",
+      "totalMs": 1393.2999999998137,
+      "afterSelectionMs": 1305,
+      "inferenceMs": 1179.84
+    },
+    {
+      "id": "photo_005",
+      "kind": "sports_jersey",
+      "sleeve": "short",
+      "totalMs": 1546.5999999996275,
+      "afterSelectionMs": 1206.5999999996275,
+      "inferenceMs": 1092.12
+    },
+    {
+      "id": "photo_020",
+      "kind": "tank_top",
+      "sleeve": "none",
+      "totalMs": 862.2999999998137,
+      "afterSelectionMs": 851.6999999992549,
+      "inferenceMs": 796.16
+    },
+    {
+      "id": "photo_028",
+      "kind": "t_shirt",
+      "sleeve": "short",
+      "totalMs": 861.7999999998137,
+      "afterSelectionMs": 845.7000000001863,
+      "inferenceMs": 793.71
+    },
+    {
+      "id": "photo_042",
+      "kind": "t_shirt",
+      "sleeve": "long",
+      "totalMs": 913.2999999998137,
+      "afterSelectionMs": 903,
+      "inferenceMs": 852.3
+    }
+  ]
+}

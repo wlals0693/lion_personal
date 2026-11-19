@@ -1,0 +1,98 @@
+{
+  "measuredAt": "2026-11-09T16:47:32.770Z",
+  "browser": "Chromium headless",
+  "mode": "local production build",
+  "protocol": "expanded registration prompt, max_tokens=384",
+  "method": "upload button click to second animation frame after populated form commit; automated file chooser",
+  "measurements": [
+    {
+      "id": "photo_000",
+      "kind": "shirt",
+      "sleeve": "short",
+      "name": "네이비 셔츠",
+      "color": "네이비",
+      "style": "캐주얼",
+      "pattern": "무지",
+      "neckline": "카라",
+      "materialGuess": "데님 느낌",
+      "uncertainFields": [
+        "materialGuess",
+        "style"
+      ],
+      "totalMs": 1702.7000000001863,
+      "afterSelectionMs": 1607.9000000003725,
+      "inferenceMs": 1502.59
+    },
+    {
+      "id": "photo_005",
+      "kind": "sports_jersey",
+      "sleeve": "short",
+      "name": "네이비 스포츠 저지",
+      "color": "네이비",
+      "style": "스포티",
+      "pattern": "무지",
+      "neckline": "폴로카라",
+      "materialGuess": "메쉬 조직",
+      "uncertainFields": [
+        "materialGuess"
+      ],
+      "totalMs": 1695.5999999996275,
+      "afterSelectionMs": 1336,
+      "inferenceMs": 1223.89
+    },
+    {
+      "id": "photo_020",
+      "kind": "tank_top",
+      "sleeve": "none",
+      "name": "화이트 민소매",
+      "color": "화이트",
+      "style": "빈티지",
+      "pattern": "무지",
+      "neckline": "라운드넥",
+      "materialGuess": "면 느낌",
+      "uncertainFields": [
+        "materialGuess",
+        "style"
+      ],
+      "totalMs": 1196.1000000005588,
+      "afterSelectionMs": 1184.9000000003725,
+      "inferenceMs": 1127.5
+    },
+    {
+      "id": "photo_028",
+      "kind": "t_shirt",
+      "sleeve": "short",
+      "name": "블랙 티셔츠",
+      "color": "블랙",
+      "style": "스트리트",
+      "pattern": "줄무늬",
+      "neckline": "라운드넥",
+      "materialGuess": "매끄러운 합성섬유 느낌",
+      "uncertainFields": [
+        "materialGuess",
+        "style"
+      ],
+      "totalMs": 1211.5,
+      "afterSelectionMs": 1196.2000000001863,
+      "inferenceMs": 1140.72
+    },
+    {
+      "id": "photo_042",
+      "kind": "t_shirt",
+      "sleeve": "long",
+      "name": "블루 티셔츠",
+      "color": "블루",
+      "style": "미니멀",
+      "pattern": "무지",
+      "neckline": "라운드넥",
+      "materialGuess": "매끄러운 합성섬유 느낌",
+      "uncertainFields": [
+        "materialGuess",
+        "style"
+      ],
+      "totalMs": 1194,
+      "afterSelectionMs": 1182.800000000745,
+      "inferenceMs": 1133.72
+    }
+  ]
+}

@@ -46,7 +46,7 @@ export function Shell({ children }: { children: ReactNode }) {
           </Link>
           <div className="sidebar-note">
             <span className="status-dot" />
-            프론트엔드 프로토타입<p>AI 결과·날씨는 예시 데이터예요.</p>
+            옷장 프로토타입<p>사진 등록은 AI 분석, 코디·날씨는 예시예요.</p>
           </div>
         </div>
       </aside>

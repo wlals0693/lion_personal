@@ -1,0 +1,337 @@
+{
+  "date": "2026-11-16T16:45:08.635Z",
+  "demoSeconds": 16.30559999999404,
+  "demo": {
+    "results": [
+      {
+        "id": "outfit:provided_photo_003:b005:s004",
+        "evaluation": {
+          "visual": "cohesive",
+          "context": "suitable",
+          "reasons": [
+            {
+              "aspect": "color",
+              "observation": "밝은 파란색 셔츠와 어두운 회색 바지의 색상 대비가 자연스럽고 일상적인 조합입니다."
+            },
+            {
+              "aspect": "shape",
+              "observation": "셔츠의 직선적인 실루엣과 바지의 정교한 실루엣이 서로를 보완하는 형태를 보입니다."
+            },
+            {
+              "aspect": "texture",
+              "observation": "셔츠의 부드러운 질감과 바지의 매끄러운 질감이 서로 다른 느낌을 제공합니다."
+            }
+          ],
+          "contextReason": "일상·산책은 편안하면서도 정돈된 느낌을 원하는 상황으로, 이 옷차림은 그런 요구를 충족합니다.",
+          "limitations": [
+            "옷의 실제 착용감이나 편안함은 판단할 수 없습니다.",
+            "옷의 실제 재질이나 온도 조건에서의 적합성은 판단할 수 없습니다."
+          ]
+        }
+      },
+      {
+        "id": "outfit:provided_photo_003:b005:s004:provided_photo_040",
+        "evaluation": {
+          "visual": "cohesive",
+          "context": "suitable",
+          "reasons": [
+            {
+              "aspect": "color",
+              "observation": "밝은 파란색 셔츠와 어두운 회색 바지의 색상 대비가 자연스럽고 일상적인 조합입니다."
+            },
+            {
+              "aspect": "shape",
+              "observation": "셔츠의 직선적인 실루엣과 바지의 정교한 실루엣이 서로를 보완하는 형태를 보입니다."
+            },
+            {
+              "aspect": "texture",
+              "observation": "셔츠의 부드러운 질감과 바지의 단단한 질감이 서로를 보완하는 느낌을 줍니다."
+            }
+          ],
+          "contextReason": "일상·산책은 다양한 옷차림이 자연스럽게 어울리는 상황입니다.",
+          "limitations": [
+            "옷의 실제 착용감이나 실루엣은 확인할 수 없습니다.",
+            "옷의 실제 재질이나 온도 조건은 확인할 수 없습니다."
+          ]
+        }
+      },
+      {
+        "id": "outfit:provided_photo_004:b001:s001",
+        "evaluation": {
+          "visual": "cohesive",
+          "context": "suitable",
+          "reasons": [
+            {
+              "aspect": "pattern",
+              "observation": "무늬가 있는 셔츠와 무늬 없는 청바지의 조합은 일상적인 룩에 적합하다."
+            },
+            {
+              "aspect": "color",
+              "observation": "밝은 색상의 셔츠와 어두운 색상의 청바지의 대비는 시각적으로 균형 잡힌다."
+            },
+            {
+              "aspect": "shape",
+              "observation": "정장 스타일의 셔츠와 허리가 넓은 청바지의 형태는 서로 다른 실루엣을 제공한다."
+            }
+          ],
+          "contextReason": "일상·산책은 편안하면서도 스타일리시한 옷차림이 적합하다.",
+          "limitations": [
+            "옷의 실루엣과 착용 시의 실루엣이 일치하지 않음",
+            "실제 옷의 크기, 재질, 온도 조건이 확인되지 않음"
+          ]
+        }
+      },
+      {
+        "id": "outfit:provided_photo_004:b001:s001:provided_photo_037",
+        "evaluation": {
+          "visual": "cohesive",
+          "context": "suitable",
+          "reasons": [
+            {
+              "aspect": "color",
+              "observation": "베이지와 검은색의 체크무늬 셔츠는 갈색 운동화와 어울리는 중립적인 톤입니다."
+            },
+            {
+              "aspect": "shape",
+              "observation": "넓은 허리의 청바지가 셔츠의 직선적인 실루엣과 조화를 이룹니다."
+            },
+            {
+              "aspect": "texture",
+              "observation": "부드러운 털이 달린 가죽 재킷은 전체적으로 따뜻하고 캐주얼한 느낌을 줍니다."
+            }
+          ],
+          "contextReason": "일상 산책에 적합한 캐주얼한 옷차림입니다.",
+          "limitations": [
+            "옷차림의 실제 착용감이나 실루엣은 판단할 수 없습니다.",
+            "옷의 실제 온도 보호 능력이나 재질은 판단할 수 없습니다."
+          ]
+        }
+      },
+      {
+        "id": "outfit:provided_photo_005:b003:s002",
+        "evaluation": {
+          "visual": "cohesive",
+          "context": "suitable",
+          "reasons": [
+            {
+              "aspect": "color",
+              "observation": "검은색과 회색의 조합은 일상적인 활동에 적합한 중립적인 색상입니다."
+            },
+            {
+              "aspect": "shape",
+              "observation": "셔츠와 반바지, 운동화는 각각의 기능적 형태를 유지하고 있으며, 함께 착용될 수 있는 구조를 갖추고 있습니다."
+            },
+            {
+              "aspect": "texture",
+              "observation": "셔츠는 매끄러운 질감, 반바지는 부드러운 질감, 운동화는 끈적한 질감으로 서로 다른 텍스처를 가지고 있어 일상적 착용에 적합합니다."
+            }
+          ],
+          "contextReason": "일상·산책은 자유로운 착용과 다양한 활동에 적합한 옷차림을 요구합니다.",
+          "limitations": [
+            "옷의 실제 착용감이나 피부에 미치는 영향은 판단할 수 없습니다.",
+            "옷의 실제 온도 조절 능력이나 기능성은 판단할 수 없습니다."
+          ]
+        }
+      },
+      {
+        "id": "outfit:provided_photo_005:b003:s002:provided_photo_038",
+        "evaluation": {
+          "visual": "review",
+          "context": "unsuitable",
+          "reasons": [
+            {
+              "aspect": "color",
+              "observation": "검은색과 회색의 대비가 극단적으로 강렬하여 일상적이고 편안한 분위기와 어울리지 않음"
+            },
+            {
+              "aspect": "shape",
+              "observation": "반팔 상의와 반바지의 형태가 서로 다른 스타일로 조합되어 일상적인 옷차림으로 보이지 않음"
+            },
+            {
+              "aspect": "texture",
+              "observation": "운동복 스타일의 상의와 캐주얼한 반바지의 질감이 서로 다른 느낌을 주며 조화가 없음"
+            }
+          ],
+          "contextReason": "일상·산책은 편안하고 자연스러운 옷차림이 요구되며, 이 조합은 그 요구를 충족하지 못함",
+          "limitations": [
+            "옷차림이 실제 착용된 상태로 보이지 않음",
+            "옷의 실질적 크기, 재질, 온도 보호 능력은 판단 불가능함"
+          ]
+        }
+      }
+    ],
+    "seconds": 15.588,
+    "protocol": "outfit-v1-contact-sheet",
+    "model": "Qwen3-VL-4B-Q4_K_M"
+  },
+  "wardrobe": {
+    "results": [
+      {
+        "id": "outfit:provided_photo_059:b001:s001",
+        "evaluation": {
+          "visual": "cohesive",
+          "context": "suitable",
+          "reasons": [
+            {
+              "aspect": "color",
+              "observation": "붉은색 후드티와 회색 청바지, 갈색 운동화의 색상 조합은 일상적인 산책에 적합한 자연스러운 톤입니다."
+            },
+            {
+              "aspect": "shape",
+              "observation": "후드티는 편안한 실루엣, 청바지는 허리가 넓고 다리가 퍼진 형태로, 운동화는 높은 굽과 둥근 끝을 가진 전형적인 스타일로, 각각의 형태가 서로를 보완합니다."
+            },
+            {
+              "aspect": "texture",
+              "observation": "후드티는 부드러운 코튼 소재로 보이며, 청바지는 데님 소재로, 운동화는 가죽 또는 인조가죽으로 보이는 질감으로, 각각의 질감이 서로 다른 느낌을 줍니다."
+            }
+          ],
+          "contextReason": "일상·산책은 편안하고 자연스러운 옷차림을 요구하는 상황입니다.",
+          "limitations": [
+            "옷의 실제 착용감, 체형, 온도 조건, 소재의 정확한 종류는 판단할 수 없습니다.",
+            "옷의 실제 착용 시의 실루엣, 옷의 크기, 옷의 편안함은 판단할 수 없습니다."
+          ]
+        }
+      },
+      {
+        "id": "outfit:provided_photo_059:b001:s001:provided_photo_037",
+        "evaluation": {
+          "visual": "cohesive",
+          "context": "suitable",
+          "reasons": [
+            {
+              "aspect": "color",
+              "observation": "붉은색 후드티와 갈색 운동화는 따뜻한 톤으로 조화를 이루며, 전체적으로 일상적인 분위기를 연출합니다."
+            },
+            {
+              "aspect": "shape",
+              "observation": "후드티의 편안한 실루엣과 빈티지 데님 바지의 흐트러진 끝은 편안하고 자연스러운 느낌을 줍니다."
+            },
+            {
+              "aspect": "texture",
+              "observation": "가죽 재킷의 부드러운 털 끝과 빈티지 데님 바지의 질감이 서로 대비되면서도 조화로운 콤비네이션을 만듭니다."
+            }
+          ],
+          "contextReason": "일상·산책은 편안하고 자연스러운 옷차림이 적합합니다.",
+          "limitations": [
+            "옷의 실제 착용감과 실루엣은 단일 사진으로 판단할 수 없습니다.",
+            "옷의 온도 조절 능력이나 외부 환경에 대한 적응력은 판단할 수 없습니다."
+          ]
+        }
+      },
+      {
+        "id": "outfit:provided_photo_059:b003:s002",
+        "evaluation": {
+          "visual": "cohesive",
+          "context": "suitable",
+          "reasons": [
+            {
+              "aspect": "color",
+              "observation": "붉은색 후드티와 회색 반바지의 색상 대비가 자연스럽고 일상적인 조합"
+            },
+            {
+              "aspect": "shape",
+              "observation": "후드티의 긴 소매와 반바지의 짧은 길이가 서로 다른 형태로 조화를 이루며 실용적"
+            },
+            {
+              "aspect": "texture",
+              "observation": "후드티의 부드러운 질감과 반바지의 코튼 느낌이 서로 다른 텍스처를 제공하여 매력적"
+            }
+          ],
+          "contextReason": "일상·산책은 편안하고 자연스러운 옷차림을 요구하는 상황이므로 이 조합은 적절하다.",
+          "limitations": [
+            "옷의 실제 착용감이나 실루엣은 확인할 수 없음",
+            "옷의 재질이나 온도 보호 능력은 판단 불가능함"
+          ]
+        }
+      },
+      {
+        "id": "outfit:provided_photo_059:b003:s002:provided_photo_038",
+        "evaluation": {
+          "visual": "review",
+          "context": "suitable",
+          "reasons": [
+            {
+              "aspect": "color",
+              "observation": "붉은색 후드티와 회색 반바지의 색상 대비가 강렬하며, 일상적 조합으로 보이지 않음"
+            },
+            {
+              "aspect": "shape",
+              "observation": "후드티는 긴 소매와 허리 높은 반바지는 짧은 길이로, 상하 조합이 균형 잡히지 않음"
+            },
+            {
+              "aspect": "texture",
+              "observation": "후드티는 부드러운 소재로 보이며, 반바지는 촉감이 다른 질감으로, 조화가 부족함"
+            }
+          ],
+          "contextReason": "일상 산책에 적합한 편안하고 자연스러운 옷차림으로 판단됨",
+          "limitations": [
+            "옷차림이 실제 착용된 모습이 아님",
+            "옷의 실질적 크기, 재질, 온도 보호 능력은 판단 불가능함"
+          ]
+        }
+      },
+      {
+        "id": "outfit:provided_photo_059:b004:s003",
+        "evaluation": {
+          "visual": "review",
+          "context": "unsuitable",
+          "reasons": [
+            {
+              "aspect": "color",
+              "observation": "빨간색 후드티와 회색 반바지의 색상 대비가 극단적이다."
+            },
+            {
+              "aspect": "pattern",
+              "observation": "후드티는 텍스트와 그림이 있고, 반바지는 무늬가 끊어져 있어 패턴의 일관성 없음."
+            },
+            {
+              "aspect": "shape",
+              "observation": "후드티는 긴 소매와 허리 높은 형태이고, 반바지는 짧은 소매와 허리 높은 형태로 상하 구조가 불일치."
+            }
+          ],
+          "contextReason": "일상 산책에 적합한 편안하고 일관된 스타일이 아님.",
+          "limitations": [
+            "옷의 실제 착용감과 실루엣은 판단 불가.",
+            "옷의 재질과 온도 보호 능력은 판단 불가."
+          ]
+        }
+      },
+      {
+        "id": "outfit:provided_photo_059:b004:s003:provided_photo_039",
+        "evaluation": {
+          "visual": "review",
+          "context": "unsuitable",
+          "reasons": [
+            {
+              "aspect": "color",
+              "observation": "붉은색 후드티와 회색 반바지의 색상 대비가 극단적이다."
+            },
+            {
+              "aspect": "shape",
+              "observation": "신발은 높은 히트가 있는 캐주얼 스타일로, 후드티와 반바지의 실루엣과 조화가 없다."
+            },
+            {
+              "aspect": "texture",
+              "observation": "신발의 매끄러운 표면과 후드티의 코튼 질감이 서로 다른 느낌을 줄 수 있다."
+            }
+          ],
+          "contextReason": "일상 산책은 편안하고 자연스러운 옷차림이 적절하지만, 이 조합은 너무 강렬하고 불일치한 스타일이다.",
+          "limitations": [
+            "옷의 실제 착용감과 실루엣은 알 수 없다.",
+            "옷의 온도 보호 기능이나 재질은 판단 불가능하다."
+          ]
+        }
+      }
+    ],
+    "seconds": 15.684,
+    "protocol": "outfit-v1-contact-sheet",
+    "model": "Qwen3-VL-4B-Q4_K_M"
+  },
+  "errors": [],
+  "catalog": {
+    "provided": 60,
+    "supplements": 8,
+    "total": 68,
+    "verifiedPhotos": 60
+  }
+}

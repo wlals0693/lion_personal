@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
@@ -14,21 +14,24 @@ import {
   LoaderCircle,
   Search,
 } from 'lucide-react';
-import { categories, colors, styles, type Garment, type Category } from '@/lib/types';
+import {
+  categories,
+  colors,
+  styles,
+  garmentTypes,
+  categoryForType,
+  sleeveTypes,
+  type Garment,
+  type Category,
+  type GarmentType,
+  type SleeveType,
+} from '@/lib/types';
+import { analyzeGarment } from '@/lib/garment-analysis';
 import { localDate, uid } from '@/lib/utils';
 import { readPhoto, wardrobeApi } from '@/lib/mock-api';
 import { sampleGarments } from '@/lib/seed';
 import { useWardrobe } from './store';
-import {
-  AddButton,
-  Empty,
-  ErrorBox,
-  GarmentCard,
-  GarmentImage,
-  MockLabel,
-  Modal,
-  PageHeading,
-} from './ui';
+import { AddButton, Empty, ErrorBox, GarmentCard, GarmentImage, Modal, PageHeading } from './ui';
 
 export function Wardrobe() {
   const { state } = useWardrobe();
@@ -96,24 +99,46 @@ export function Wardrobe() {
     </>
   );
 }
+interface PhotoUpload {
+  file: File;
+  clickedAt: number;
+  selectedAt: number;
+}
+const analysisFieldLabels: Record<string, string> = {
+  name: '옷 이름',
+  type: '옷 종류',
+  sleeve: '소매',
+  color: '색상',
+  style: '스타일',
+  pattern: '패턴',
+  neckline: '목 형태',
+  materialGuess: '원단 추정',
+};
 export function ImagePicker({
   image,
   onChange,
   disabled = false,
 }: {
   image: string;
-  onChange: (image: string, sample?: Garment) => void;
+  onChange: (image: string, sample?: Garment, upload?: PhotoUpload) => void;
   disabled?: boolean;
 }) {
   const input = useRef<HTMLInputElement>(null);
+  const uploadClickedAt = useRef<number | null>(null);
+  function pickPhoto() {
+    uploadClickedAt.current = performance.now();
+    input.current?.click();
+  }
   const [error, setError] = useState(''),
     [busy, setBusy] = useState(false);
   async function fileChanged(file?: File) {
     if (!file) return;
+    const selectedAt = performance.now();
+    const clickedAt = uploadClickedAt.current ?? selectedAt;
     setBusy(true);
     setError('');
     try {
-      onChange(await readPhoto(file));
+      onChange(await readPhoto(file), undefined, { file, clickedAt, selectedAt });
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -137,7 +162,7 @@ export function ImagePicker({
           <GarmentImage item={{ image, name: '선택한 의류 사진' }} />
           <button
             className="button secondary"
-            onClick={() => input.current?.click()}
+            onClick={pickPhoto}
             type="button"
             disabled={disabled || busy}
           >
@@ -149,7 +174,7 @@ export function ImagePicker({
         <button
           type="button"
           className="upload-zone"
-          onClick={() => input.current?.click()}
+          onClick={pickPhoto}
           disabled={disabled || busy}
         >
           <span className="upload-icon">
@@ -194,11 +219,53 @@ export function GarmentFields({
   value,
   onChange,
 }: {
-  value: Pick<Garment, 'name' | 'category' | 'color' | 'style'>;
+  value: Pick<
+    Garment,
+    | 'name'
+    | 'category'
+    | 'color'
+    | 'style'
+    | 'type'
+    | 'sleeve'
+    | 'pattern'
+    | 'neckline'
+    | 'materialGuess'
+    | 'uncertainFields'
+  >;
   onChange: (patch: Partial<Garment>) => void;
 }) {
   return (
     <div className="garment-fields">
+      <div className="form-columns">
+        <label className="field">
+          옷 종류
+          <select
+            aria-label="옷 종류"
+            value={value.type || 'unknown'}
+            onChange={(e) => onChange({ type: e.target.value as GarmentType })}
+          >
+            {Object.entries(garmentTypes).map(([key, label]) => (
+              <option key={key} value={key}>
+                {label}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="field">
+          소매
+          <select
+            aria-label="소매"
+            value={value.sleeve || 'unknown'}
+            onChange={(e) => onChange({ sleeve: e.target.value as SleeveType })}
+          >
+            {Object.entries(sleeveTypes).map(([key, label]) => (
+              <option key={key} value={key}>
+                {label}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
       <label className="field">
         옷 이름
         <input
@@ -213,6 +280,7 @@ export function GarmentFields({
         <label className="field">
           카테고리
           <select
+            aria-label="카테고리"
             value={value.category}
             onChange={(e) => onChange({ category: e.target.value as Category })}
           >
@@ -223,8 +291,12 @@ export function GarmentFields({
         </label>
         <label className="field">
           주 색상
-          <select value={value.color} onChange={(e) => onChange({ color: e.target.value })}>
-            {colors.map((c) => (
+          <select
+            aria-label="주 색상"
+            value={value.color}
+            onChange={(e) => onChange({ color: e.target.value })}
+          >
+            {[...new Set([...colors, value.color])].map((c) => (
               <option key={c}>{c}</option>
             ))}
           </select>
@@ -232,12 +304,55 @@ export function GarmentFields({
       </div>
       <label className="field">
         스타일
-        <select value={value.style} onChange={(e) => onChange({ style: e.target.value })}>
+        <select
+          aria-label="스타일"
+          value={value.style}
+          onChange={(e) => onChange({ style: e.target.value })}
+        >
           {[...styles, '잘 모르겠어요'].map((s) => (
             <option key={s}>{s}</option>
           ))}
         </select>
       </label>
+      <div className="form-columns">
+        <label className="field">
+          패턴
+          <input
+            aria-label="패턴"
+            value={value.pattern || ''}
+            maxLength={100}
+            placeholder="잘 모르겠어요"
+            onChange={(e) => onChange({ pattern: e.target.value })}
+          />
+        </label>
+        <label className="field">
+          목 형태
+          <input
+            aria-label="목 형태"
+            value={value.neckline || ''}
+            maxLength={100}
+            placeholder="잘 모르겠어요"
+            onChange={(e) => onChange({ neckline: e.target.value })}
+          />
+        </label>
+      </div>
+      <label className="field">
+        원단 추정
+        <input
+          aria-label="원단 추정"
+          value={value.materialGuess || ''}
+          maxLength={100}
+          placeholder="잘 모르겠어요"
+          onChange={(e) => onChange({ materialGuess: e.target.value })}
+        />
+        <small>사진으로 본 추정이에요. 실제 섬유 성분은 라벨에서 확인해주세요.</small>
+      </label>
+      {!!value.uncertainFields?.length && (
+        <p className="caption" data-testid="uncertain-fields">
+          확인이 필요한 항목:{' '}
+          {value.uncertainFields.map((key) => analysisFieldLabels[key] || key).join(', ')}
+        </p>
+      )}
     </div>
   );
 }
@@ -251,9 +366,52 @@ export function GarmentEditor({ id }: { id?: string }) {
     category: existing?.category || ('상의' as Category),
     color: existing?.color || '잘 모르겠어요',
     style: existing?.style || '캐주얼',
+    type: existing?.type || ('unknown' as GarmentType),
+    sleeve: existing?.sleeve || ('unknown' as SleeveType),
+    pattern: existing?.pattern || '',
+    neckline: existing?.neckline || '',
+    materialGuess: existing?.materialGuess || '',
+    uncertainFields: existing?.uncertainFields || ([] as string[]),
   });
+  const nameEdited = useRef(!!existing?.name);
+  const selectedUpload = useRef<PhotoUpload | null>(null);
+  const pendingTiming = useRef<PhotoUpload | null>(null);
+  const [timing, setTiming] = useState<{
+    totalMs: number;
+    afterSelectionMs: number;
+    inferenceMs: number;
+  } | null>(null);
+  const inferenceMs = useRef(0);
+  const [realAnalysis, setRealAnalysis] = useState(false);
   const [stage, setStage] = useState(existing ? 'review' : 'upload'),
     [error, setError] = useState('');
+  useEffect(() => {
+    if (stage !== 'review' || !pendingTiming.current) return;
+    // The second frame follows a paint with both populated fields visible.
+    let second = 0;
+    const first = requestAnimationFrame(() => {
+      second = requestAnimationFrame(() => {
+        const upload = pendingTiming.current;
+        if (!upload) return;
+        const visibleAt = performance.now();
+        const measured = {
+          totalMs: visibleAt - upload.clickedAt,
+          afterSelectionMs: visibleAt - upload.selectedAt,
+          inferenceMs: inferenceMs.current,
+        };
+        performance.measure('wardrobe-upload-to-visible', {
+          start: upload.clickedAt,
+          end: visibleAt,
+        });
+        setTiming(measured);
+        pendingTiming.current = null;
+      });
+    });
+    return () => {
+      cancelAnimationFrame(first);
+      cancelAnimationFrame(second);
+    };
+  }, [stage]);
   if (id && !existing)
     return (
       <Empty
@@ -263,12 +421,34 @@ export function GarmentEditor({ id }: { id?: string }) {
         label="옷장으로"
       />
     );
-  async function analyze() {
+  async function analyze(upload = selectedUpload.current) {
     setStage('loading');
     setError('');
     try {
-      const analysis = await wardrobeApi.analyzeImage(image, values.category);
-      setValues((v) => ({ ...analysis, name: v.name || analysis.name }));
+      setTiming(null);
+      if (upload) {
+        const analysis = await analyzeGarment(upload.file);
+        inferenceMs.current = analysis.inferenceMs;
+        pendingTiming.current = upload;
+        setRealAnalysis(true);
+        setValues((v) => ({
+          ...v,
+          type: analysis.type,
+          sleeve: analysis.sleeve,
+          name: nameEdited.current ? v.name : analysis.name,
+          color: analysis.color,
+          style: analysis.style,
+          pattern: analysis.pattern,
+          neckline: analysis.neckline,
+          materialGuess: analysis.materialGuess,
+          uncertainFields: analysis.uncertainFields,
+          category: categoryForType(analysis.type, v.category),
+        }));
+      } else {
+        const analysis = await wardrobeApi.analyzeImage(image, values.category);
+        setRealAnalysis(false);
+        setValues((v) => ({ ...v, ...analysis, name: v.name || analysis.name }));
+      }
       setStage('review');
     } catch (e) {
       setError((e as Error).message);
@@ -318,8 +498,12 @@ export function GarmentEditor({ id }: { id?: string }) {
         <ImagePicker
           image={image}
           disabled={stage === 'loading'}
-          onChange={(next, sample) => {
+          onChange={(next, sample, upload) => {
             setImage(next);
+            selectedUpload.current = upload || null;
+            pendingTiming.current = null;
+            setTiming(null);
+            setRealAnalysis(false);
             setStage(existing ? 'review' : 'upload');
             setError('');
             if (sample)
@@ -328,15 +512,30 @@ export function GarmentEditor({ id }: { id?: string }) {
                 category: sample.category,
                 color: sample.color,
                 style: sample.style,
+                type: sample.type || 'unknown',
+                sleeve: sample.sleeve || 'unknown',
+                pattern: sample.pattern || '',
+                neckline: sample.neckline || '',
+                materialGuess: sample.materialGuess || '',
+                uncertainFields: [],
               });
+            if (upload) void analyze(upload);
           }}
         />
         <section className="editor-panel">
           {stage === 'loading' ? (
             <div className="state-box" role="status">
               <Sparkles className="spin" />
-              <h2>특징 후보를 준비하고 있어요</h2>
-              <p className="subtle">실제 사진 분석이 아닌 체험용 응답이에요.</p>
+              <h2>
+                {selectedUpload.current
+                  ? '사진에서 옷의 특징을 확인하고 있어요'
+                  : '예시 응답을 준비하고 있어요'}
+              </h2>
+              <p className="subtle">
+                {selectedUpload.current
+                  ? '분석이 끝나면 결과를 자동으로 채워드려요.'
+                  : '예시 사진은 체험용 응답을 사용해요.'}
+              </p>
             </div>
           ) : stage === 'upload' ? (
             <>
@@ -364,7 +563,10 @@ export function GarmentEditor({ id }: { id?: string }) {
                   ))}
                 </select>
               </label>
-              <MockLabel>AI 분석 체험 · 실제 모델 미연결</MockLabel>
+              <p className="caption">
+                사진을 올리면 이름·종류·소매·색상·스타일·패턴·목 형태·원단 추정이 자동으로 채워져요.
+                예시 사진은 체험용이에요.
+              </p>
               {error && <ErrorBox message={error} retry={() => void analyze()} />}
               <button
                 className="button primary full"
@@ -384,15 +586,40 @@ export function GarmentEditor({ id }: { id?: string }) {
             >
               <div className="section-heading">
                 <h2>이렇게 등록할까요?</h2>
-                <MockLabel>예시 응답</MockLabel>
+                <span className="caption">
+                  {realAnalysis ? '사진 분석 완료' : existing ? '저장된 정보' : '예시 응답'}
+                </span>
               </div>
               <p className="subtle">
-                실제 AI 분석 결과가 아니에요. 사진에 맞게 바꿔주세요. 색상이 애매하면 ‘잘
-                모르겠어요’로 남겨도 돼요.
+                {realAnalysis
+                  ? '사진에서 예측한 정보를 확인하고 필요하면 바꿔주세요. 스타일은 제안이며 원단은 시각적 추정이에요.'
+                  : existing
+                    ? '필요한 정보를 수정해주세요.'
+                    : '예시 응답이에요. 사진에 맞게 바꿔주세요.'}
               </p>
+              {timing && (
+                <p
+                  className="caption"
+                  role="status"
+                  data-testid="analysis-timing"
+                  data-total-ms={timing.totalMs}
+                  data-selection-ms={timing.afterSelectionMs}
+                  data-inference-ms={timing.inferenceMs}
+                >
+                  업로드 버튼 → 결과 표시 {(timing.totalMs / 1000).toFixed(2)}초 · 사진 선택 후{' '}
+                  {(timing.afterSelectionMs / 1000).toFixed(2)}초
+                </p>
+              )}
               <GarmentFields
                 value={values}
-                onChange={(patch) => setValues((v) => ({ ...v, ...patch }))}
+                onChange={(patch) => {
+                  if ('name' in patch) nameEdited.current = true;
+                  setValues((v) => ({
+                    ...v,
+                    ...patch,
+                    uncertainFields: v.uncertainFields.filter((key) => !(key in patch)),
+                  }));
+                }}
               />
               {error && <ErrorBox message={error} />}
               <button className="button primary full" type="submit">
@@ -445,11 +672,31 @@ export function GarmentDetail({ id }: { id: string }) {
           <span className="eyebrow">{item.category}</span>
           <h1>{item.name}</h1>
           <div className="chips">
+            {item.type && <span className="tag">{garmentTypes[item.type]}</span>}
+            {item.sleeve && <span className="tag">{sleeveTypes[item.sleeve]}</span>}
             <span className="tag">{item.color}</span>
             <span className="tag">{item.style}</span>
             {item.excluded && <span className="tag">추천 제외 중</span>}
           </div>
           <dl className="detail-list">
+            {item.pattern && (
+              <div>
+                <dt>패턴</dt>
+                <dd>{item.pattern}</dd>
+              </div>
+            )}
+            {item.neckline && (
+              <div>
+                <dt>목 형태</dt>
+                <dd>{item.neckline}</dd>
+              </div>
+            )}
+            {item.materialGuess && (
+              <div>
+                <dt>원단 추정 · 성분 미확인</dt>
+                <dd>{item.materialGuess}</dd>
+              </div>
+            )}
             <div>
               <dt>옷장에 들어온 날</dt>
               <dd>{item.createdAt}</dd>

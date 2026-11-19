@@ -1,5 +1,5 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useSyncExternalStore } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useWardrobe } from './store';
 import { Auth, Onboarding } from './auth';
@@ -12,19 +12,28 @@ import { Records } from './records';
 import { Insights } from './insights';
 import { Profile } from './profile';
 import { Empty, ErrorBox, Loading } from './ui';
+import { OutfitDemo } from './ai-outfits';
+const subscribeHydration = () => () => {};
 export function Application() {
+  // A parent store effect can finish before this streamed boundary hydrates.
+  const hydrated = useSyncExternalStore(
+    subscribeHydration,
+    () => true,
+    () => false,
+  );
   const { state, ready, error, reset } = useWardrobe();
   const path = usePathname();
   const router = useRouter();
   useEffect(() => {
-    if (!ready || error) return;
+    if (!ready || error || path === '/demo/outfits') return;
     if (!state.loggedIn && path !== '/login') router.replace('/login');
     else if (state.loggedIn && !state.onboarded && path !== '/onboarding')
       router.replace('/onboarding');
     else if (state.loggedIn && state.onboarded && (path === '/login' || path === '/onboarding'))
       router.replace('/');
   }, [ready, error, state.loggedIn, state.onboarded, path, router]);
-  if (!ready) return <Loading />;
+  if (!ready || !hydrated) return <Loading />;
+  if (path === '/demo/outfits') return <OutfitDemo />;
   if (error)
     return (
       <main className="onboarding">

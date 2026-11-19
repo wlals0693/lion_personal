@@ -1,4 +1,7 @@
 node_modules/
+.npm-cache/
+.playwright/
+scripts/__pycache__/
 .next/
 out/
 coverage/
@@ -9,3 +12,8 @@ test-results/
 test-run.log
 .logs/
 .DS_Store
+training/.venv/
+training/data/
+training/runs/
+training/.cache/
+training/__pycache__/
