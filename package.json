@@ -12,6 +12,7 @@
     "gpu": "node scripts/start-gpu.mjs",
     "demo": "node scripts/start-demo.mjs",
     "capture:presentation": "node --import tsx scripts/capture-presentation.ts",
+    "refresh:presentation": "node scripts/refresh-presentation.mjs",
     "test:gpu-web": "node --import tsx scripts/test-gpu-web.mjs",
     "test:outfits": "node --import tsx scripts/test-gpu-web.mjs outfits"
   },

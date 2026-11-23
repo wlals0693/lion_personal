@@ -2,6 +2,7 @@
 import { mkdir, readFile, readdir, writeFile, access } from 'node:fs/promises';
 import path from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
+import { presentationHtml } from './presentation-template.mjs';
 import { categoryForType, type Garment, type Outfit } from '../lib/types';
 import { isPhotoAnalysis } from '../lib/garment-analysis';
 import { outfitCandidates, isOutfitEvaluation, rankEvaluated } from '../lib/outfit-evaluation';
@@ -131,14 +132,9 @@ const pack = {
   items,
   cases,
 };
-const template = await readFile('presentation/index.html', 'utf8');
-const embedded = JSON.stringify(pack).replace(/</g, () => String.fromCharCode(92) + 'u003c');
 await mkdir(out, { recursive: true });
 await writeFile(path.join(out, 'presentation.json'), JSON.stringify(pack));
-await writeFile(
-  path.join(out, 'wardrobe-demo.html'),
-  template.replace('__CAPTURED_PACK__', () => embedded),
-);
+await writeFile(path.join(out, 'wardrobe-demo.html'), await presentationHtml(pack));
 await writeFile(
   path.join(out, 'comparison.json'),
   JSON.stringify(
