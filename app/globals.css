@@ -3052,3 +3052,10 @@ hr {
     height: 160px;
   }
 }
+.evidence-note { display:block; margin-top:5px; color:var(--gray); font-size:12px; }
+.ai-intro { background:transparent; border-bottom:1px solid var(--line); padding:16px 0 28px; }
+.ai-intro h2 { font-size:clamp(24px,3vw,32px); letter-spacing:-1px; font-weight:500; }
+.evaluation-summary { font-size:14px; line-height:1.8; }
+.evaluation-summary ul { list-style:none; padding-left:0; }
+.evaluation-summary details { color:var(--gray); font-size:12px; }
+.evaluation-summary .evaluation-badges { margin-top:4px; }

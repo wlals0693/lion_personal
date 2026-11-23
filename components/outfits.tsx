@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowRight, Heart, RefreshCw, Sparkles, Pin, Check, CalendarDays } from 'lucide-react';
 import type { Outfit } from '@/lib/types';
 import { wardrobeApi } from '@/lib/mock-api';
+import { recommendationDecision } from '@/lib/outfit-evaluation';
 import { localDate, toggleValue, uid } from '@/lib/utils';
 import { useWardrobe } from './store';
 import { AiOutfitEvaluator, EvaluationSummary } from './ai-outfits';
@@ -94,7 +95,14 @@ export function Outfits() {
         occasion={occasion}
         anchor={anchor}
         onEvaluated={setAiActive}
-        onResults={(outfits) => update((s) => ({ ...s, evaluatedOutfits: outfits }))}
+        onResults={(outfits) =>
+          update((s) => ({
+            ...s,
+            evaluatedOutfits: outfits.filter(
+              (o) => recommendationDecision(o.evaluation!) === 'recommend',
+            ),
+          }))
+        }
         likes={state.likes}
         onLike={(id) => update((s) => ({ ...s, likes: toggleValue(s.likes, id) }))}
       />

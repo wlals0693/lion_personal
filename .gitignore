@@ -17,3 +17,4 @@ training/data/
 training/runs/
 training/.cache/
 training/__pycache__/
+presentation-output/

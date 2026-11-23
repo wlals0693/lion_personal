@@ -251,20 +251,22 @@ export function GarmentFields({
             ))}
           </select>
         </label>
-        <label className="field">
-          소매
-          <select
-            aria-label="소매"
-            value={value.sleeve || 'unknown'}
-            onChange={(e) => onChange({ sleeve: e.target.value as SleeveType })}
-          >
-            {Object.entries(sleeveTypes).map(([key, label]) => (
-              <option key={key} value={key}>
-                {label}
-              </option>
-            ))}
-          </select>
-        </label>
+        {['상의', '아우터', '원피스'].includes(value.category) && (
+          <label className="field">
+            소매
+            <select
+              aria-label="소매"
+              value={value.sleeve || 'unknown'}
+              onChange={(e) => onChange({ sleeve: e.target.value as SleeveType })}
+            >
+              {Object.entries(sleeveTypes).map(([key, label]) => (
+                <option key={key} value={key}>
+                  {label}
+                </option>
+              ))}
+            </select>
+          </label>
+        )}
       </div>
       <label className="field">
         옷 이름
@@ -325,16 +327,18 @@ export function GarmentFields({
             onChange={(e) => onChange({ pattern: e.target.value })}
           />
         </label>
-        <label className="field">
-          목 형태
-          <input
-            aria-label="목 형태"
-            value={value.neckline || ''}
-            maxLength={100}
-            placeholder="잘 모르겠어요"
-            onChange={(e) => onChange({ neckline: e.target.value })}
-          />
-        </label>
+        {['상의', '아우터', '원피스'].includes(value.category) && (
+          <label className="field">
+            목 형태
+            <input
+              aria-label="목 형태"
+              value={value.neckline || ''}
+              maxLength={100}
+              placeholder="잘 모르겠어요"
+              onChange={(e) => onChange({ neckline: e.target.value })}
+            />
+          </label>
+        )}
       </div>
       <label className="field">
         원단 추정
@@ -461,6 +465,7 @@ export function GarmentEditor({ id }: { id?: string }) {
       return;
     }
     const garment: Garment = {
+      reviewed: true,
       id: existing?.id || uid('garment'),
       ...values,
       name: values.name.trim(),
@@ -666,6 +671,14 @@ export function GarmentDetail({ id }: { id: string }) {
   return (
     <>
       <PageHeading eyebrow="GARMENT DETAILS" title="내 옷 자세히 보기" back="/wardrobe" />
+      <div className="button-row">
+        <Link className="button secondary" href="/wardrobe/new">
+          다른 옷 등록하기
+        </Link>
+        <Link className="text-button" href="/wardrobe">
+          전체 옷장 보기
+        </Link>
+      </div>
       <div className="garment-detail">
         <GarmentImage item={item} />
         <section>
@@ -673,7 +686,9 @@ export function GarmentDetail({ id }: { id: string }) {
           <h1>{item.name}</h1>
           <div className="chips">
             {item.type && <span className="tag">{garmentTypes[item.type]}</span>}
-            {item.sleeve && <span className="tag">{sleeveTypes[item.sleeve]}</span>}
+            {item.sleeve && ['상의', '아우터', '원피스'].includes(item.category) && (
+              <span className="tag">{sleeveTypes[item.sleeve]}</span>
+            )}
             <span className="tag">{item.color}</span>
             <span className="tag">{item.style}</span>
             {item.excluded && <span className="tag">추천 제외 중</span>}
@@ -685,7 +700,7 @@ export function GarmentDetail({ id }: { id: string }) {
                 <dd>{item.pattern}</dd>
               </div>
             )}
-            {item.neckline && (
+            {item.neckline && ['상의', '아우터', '원피스'].includes(item.category) && (
               <div>
                 <dt>목 형태</dt>
                 <dd>{item.neckline}</dd>

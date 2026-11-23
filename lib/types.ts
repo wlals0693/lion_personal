@@ -58,6 +58,7 @@ export const colors = [
   '잘 모르겠어요',
 ];
 export interface Garment {
+  reviewed?: boolean;
   id: string;
   name: string;
   category: Category;
@@ -82,9 +83,16 @@ export interface Outfit {
   evaluation?: OutfitEvaluation;
 }
 export interface OutfitEvaluation {
+  protocol?: 'outfit-v2-evidence';
+  decision?: 'recommend' | 'hold' | 'reject';
   visual: 'cohesive' | 'ordinary' | 'review';
   context: 'suitable' | 'uncertain' | 'unsuitable';
-  reasons: { aspect: 'color' | 'pattern' | 'texture' | 'shape' | 'overall'; observation: string }[];
+  reasons: {
+    aspect: 'color' | 'pattern' | 'texture' | 'shape' | 'overall';
+    observation: string;
+    evidence?: string;
+    itemIds?: string[];
+  }[];
   contextReason: string;
   limitations: string[];
 }

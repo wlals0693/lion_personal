@@ -29,6 +29,7 @@ test('large wardrobes remain reachable beyond the old 120-combination prefix', (
 });
 import { categoryForType, type Outfit, type OutfitEvaluation } from '../lib/types';
 import { isOutfitEvaluation, outfitCandidates, rankEvaluated } from '../lib/outfit-evaluation';
+import { recommendationDecision } from '../lib/outfit-evaluation';
 const evaluation: OutfitEvaluation = {
   visual: 'ordinary',
   context: 'suitable',
@@ -36,6 +37,13 @@ const evaluation: OutfitEvaluation = {
   contextReason: '일상 기준입니다.',
   limitations: ['실제 착용 핏은 알 수 없습니다.'],
 };
+test('recommendation selection may return zero and never promotes uncertain or unsuitable cases', () => {
+  assert.equal(recommendationDecision(evaluation), 'recommend');
+  assert.equal(recommendationDecision({...evaluation, context:'uncertain'}), 'hold');
+  assert.equal(recommendationDecision({...evaluation, context:'unsuitable'}), 'reject');
+  assert.equal(recommendationDecision({...evaluation, decision:'hold'}), 'hold');
+  assert.equal(recommendationDecision({...evaluation, visual:'review'}), 'hold');
+});
 test('candidates honor fixed/excluded garments and are complete, unique and bounded', () => {
   const items = sampleGarments().map((g) => ({ ...g, excluded: g.id === 'b005' }));
   const result = outfitCandidates(items, '일상·산책', 't003');

@@ -36,8 +36,11 @@ try {
     for (const name of names) {
       await page.goto(`${base}/wardrobe/new`);
       await page.getByLabel('의류 사진 선택').setInputFiles(path.join(photos, folder, name));
+      await page.getByRole('heading', { name: '이렇게 등록할까요?' }).waitFor();
+      await expect(page.getByLabel('소매', { exact: true })).toHaveCount(slot === 'top' ? 1 : 0);
       await page.getByRole('button', { name: '내 옷장에 저장' }).click();
       await expect(page).toHaveURL(/\/wardrobe\/garment/);
+      await expect(page.getByRole('link', { name: '다른 옷 등록하기', exact: true })).toBeVisible();
     }
   }
   await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem('ai-wardrobe-prototype:v1')).garments.length)).toBe(9);

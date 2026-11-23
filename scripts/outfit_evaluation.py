@@ -28,6 +28,9 @@ def validate_evaluation(value):
     return {key:value[key] for key in ['visual','context','reasons','contextReason','limitations']}
 
 def evaluate_batch(payload, llama):
+    if isinstance(payload, dict) and payload.get('protocol') == 'outfit-v2-evidence':
+        from outfit_evaluation_v2 import evaluate_v2
+        return evaluate_v2(payload, llama)
     if not isinstance(payload,dict) or payload.get('occasion') not in ['일상·산책','출근·등교','약속·데이트','여행·나들이']:
         raise ValueError('Invalid occasion')
     candidates = payload.get('candidates')

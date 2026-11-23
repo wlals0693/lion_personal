@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { demoPhoto } from '@/lib/demo-catalog';
-import { categories } from '@/lib/types';
+import { categories, garmentTypes, colors } from '@/lib/types';
 import { isOutfitEvaluation, outfitOccasions } from '@/lib/outfit-evaluation';
 export const runtime = 'nodejs';
 export const maxDuration = 180;
@@ -55,7 +55,17 @@ export async function POST(request: Request) {
       }
       if (!image.length || image.length > 3 * 1024 * 1024)
         throw new Error('사진 한 장은 3MB 이하여야 해요.');
-      items.push({ id: item.id, image: image.toString('base64') });
+      items.push({
+        id: item.id,
+        image: image.toString('base64'),
+        category: item.category,
+        type:
+          typeof item.type === 'string' && Object.hasOwn(garmentTypes, item.type)
+            ? item.type
+            : 'unknown',
+        color: colors.includes(item.color) ? item.color : '잘 모르겠어요',
+        reviewed: item.reviewed === true,
+      });
     }
     const seen = new Set<string>();
     const seenSets = new Set<string>();
@@ -93,7 +103,13 @@ export async function POST(request: Request) {
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ occasion: input.occasion, items, candidates: input.candidates }),
+          body: JSON.stringify({
+            protocol:
+              input.protocol === 'outfit-v2-evidence' ? input.protocol : 'outfit-v1-contact-sheet',
+            occasion: input.occasion,
+            items,
+            candidates: input.candidates,
+          }),
           signal: AbortSignal.timeout(170_000),
           cache: 'no-store',
         },

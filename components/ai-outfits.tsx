@@ -9,6 +9,7 @@ import {
   outfitCandidates,
   outfitOccasions,
   visualLabels,
+  recommendationDecision,
 } from '@/lib/outfit-evaluation';
 import { ErrorBox, OutfitCollage } from './ui';
 
@@ -22,18 +23,16 @@ export function EvaluationSummary({ value }: { value: OutfitEvaluation }) {
       <ul>
         {value.reasons.map((reason, i) => (
           <li key={i}>
-            <b>{aspectLabels[reason.aspect]}</b> · {reason.observation}
+            {reason.observation}
+            {reason.evidence && <small className="evidence-note">관찰 · {reason.evidence}</small>}
           </li>
         ))}
       </ul>
       <p>
         <b>상황</b> · {value.contextReason}
       </p>
-      <p className="caption">
-        위 설명은 AI의 관찰·추정이에요. 실제 착용 핏·체형·섬유 성분은 이 사진으로 확정할 수 없어요.
-      </p>
       <details>
-        <summary>판단의 한계</summary>
+        <summary>AI 판단의 범위</summary>
         <ul>
           {value.limitations.map((s, i) => (
             <li key={i}>{s}</li>
@@ -107,16 +106,10 @@ export function AiOutfitEvaluator({
   return (
     <section className="ai-recommendation" aria-label="실제 AI 코디 평가">
       <div className="ai-intro">
-        <p className="eyebrow">LOCAL AI · OUTFIT COMPATIBILITY</p>
-        <h2>내 옷이 함께 어울리는지 확인해요</h2>
-        <p>
-          후보 {candidates.length}개를 사진으로 평가해 조화와 상황 적합성을 따로 보여드려요. 개인
-          취향·실제 착용 핏은 평가하지 않아요.
-        </p>
-        <p className="caption">
-          초기 AI 판단 · 사람의 코디 평가와 아직 검증하지 않았어요. 전체 옷장의 최적 코디를 보장하지
-          않아요.
-        </p>
+        <p className="eyebrow">YOUR NEXT LOOK</p>
+        <h2>있는 옷에서, 새로운 조합을.</h2>
+        <p>오늘의 상황에 맞춰 함께 입을 만한 조합을 찾아보세요.</p>
+        <p className="caption">사진 기반 AI 제안 · 실제 착용 핏과 개인 취향은 직접 확인해주세요.</p>
         <button
           className="button primary"
           disabled={busy || !candidates.length}
@@ -131,10 +124,6 @@ export function AiOutfitEvaluator({
         >
           다른 후보 만들기
         </button>
-        <p className="caption">
-          전체 {items.filter((g) => !g.excluded).length}벌에서 이번 후보를 구성했어요. 원하는 옷을
-          고정하거나 다른 후보를 만들 수 있어요.
-        </p>
         {!candidates.length && (
           <p role="status">
             상의·하의·신발 또는 원피스·신발이 필요해요. 고정한 옷의 추천 제외 상태도 확인해주세요.
@@ -150,17 +139,19 @@ export function AiOutfitEvaluator({
       {ranked.length > 0 && (
         <>
           <p role="status" data-testid="outfit-timing" data-seconds={seconds}>
-            평가한 {ranked.length}개 후보의 추천 순서 · 완료까지 {seconds?.toFixed(2)}초
+            함께 입을 만한 조합{' '}
+            {ranked.filter((o) => recommendationDecision(o.evaluation!) === 'recommend').length}개 ·{' '}
+            {seconds?.toFixed(1)}초
           </p>
-          <p className="caption">
-            상황 부적합 코디를 뒤로 보내고, 나머지는 전체 조화 순으로 표시해요. 같은 판단이면 후보
-            순서를 유지해요.
-          </p>
+          <p className="caption">같은 평가의 코디 사이에 세밀한 우열을 매기지는 않아요.</p>
         </>
       )}
       {(ranked.length > 0 || demo) && (
         <div className="outfit-grid">
-          {(ranked.length ? ranked : candidates).map((outfit, i) => (
+          {(ranked.length
+            ? ranked.filter((o) => recommendationDecision(o.evaluation!) === 'recommend')
+            : candidates
+          ).map((outfit, i) => (
             <article
               className="outfit-card"
               key={outfit.id}
@@ -170,7 +161,10 @@ export function AiOutfitEvaluator({
               <OutfitCollage outfit={outfit} items={items} />
               <div className="outfit-card-copy">
                 <p className="eyebrow">
-                  {outfit.evaluation ? `추천 ${i + 1}` : `평가 전 후보 ${i + 1}`} · {occasion}
+                  {outfit.evaluation
+                    ? `LOOK ${String(i + 1).padStart(2, '0')}`
+                    : `평가 전 후보 ${i + 1}`}{' '}
+                  · {occasion}
                 </p>
                 <h3>
                   {outfit.itemIds.map((id) => items.find((g) => g.id === id)?.name).join(' + ')}
@@ -197,6 +191,38 @@ export function AiOutfitEvaluator({
             </article>
           ))}
         </div>
+      )}
+      {ranked.length > 0 &&
+        !ranked.some((o) => recommendationDecision(o.evaluation!) === 'recommend') && (
+          <div className="quiet-empty">
+            <h3>이번 후보에서는 확신 있게 제안할 조합이 없어요.</h3>
+            <p>다른 후보를 만들거나 외출 상황을 바꿔보세요.</p>
+          </div>
+        )}
+      {ranked.some((o) => recommendationDecision(o.evaluation!) !== 'recommend') && (
+        <details className="evaluation-method">
+          <summary>
+            보류·제외한 후보 보기 (
+            {ranked.filter((o) => recommendationDecision(o.evaluation!) !== 'recommend').length})
+          </summary>
+          <div className="outfit-grid">
+            {ranked
+              .filter((o) => recommendationDecision(o.evaluation!) !== 'recommend')
+              .map((o) => (
+                <article className="outfit-card" key={o.id}>
+                  <OutfitCollage outfit={o} items={items} />
+                  <div className="outfit-card-copy">
+                    <p className="eyebrow">
+                      {recommendationDecision(o.evaluation!) === 'reject'
+                        ? '이번 추천에서 제외'
+                        : '추가 확인 필요'}
+                    </p>
+                    <EvaluationSummary value={o.evaluation!} />
+                  </div>
+                </article>
+              ))}
+          </div>
+        </details>
       )}
       <details className="evaluation-method">
         <summary>어떤 기준으로 평가하나요?</summary>

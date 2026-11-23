@@ -13,6 +13,12 @@ export const aspectLabels = {
   overall: '전체 조화',
 };
 export const outfitOccasions = ['일상·산책', '출근·등교', '약속·데이트', '여행·나들이'];
+export function recommendationDecision(value: OutfitEvaluation): 'recommend' | 'hold' | 'reject' {
+  if (value.context === 'unsuitable' || value.decision === 'reject') return 'reject';
+  if (value.visual === 'review' || value.context === 'uncertain' || value.decision === 'hold')
+    return 'hold';
+  return 'recommend';
+}
 
 // Diversity only: no color equality or embedding similarity is treated as compatibility.
 export function outfitCandidates(
@@ -75,6 +81,18 @@ export function isOutfitEvaluation(value: unknown): value is OutfitEvaluation {
   const v = value as Record<string, unknown>;
   const shortText = (s: unknown) => typeof s === 'string' && s.trim().length > 0 && s.length <= 300;
   return (
+    (v.protocol !== 'outfit-v2-evidence' ||
+      (['recommend', 'hold', 'reject'].includes(String(v.decision)) &&
+        Array.isArray(v.reasons) &&
+        v.reasons.every(
+          (r) =>
+            r &&
+            (!r.evidence || shortText(r.evidence)) &&
+            (!r.itemIds ||
+              (Array.isArray(r.itemIds) &&
+                r.itemIds.length >= 2 &&
+                r.itemIds.every((id: unknown) => typeof id === 'string'))),
+        ))) &&
     typeof v.visual === 'string' &&
     Object.hasOwn(visualLabels, v.visual) &&
     typeof v.context === 'string' &&
@@ -118,11 +136,19 @@ export async function evaluateOutfits(
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
+      protocol: 'outfit-v2-evidence',
       occasion,
       candidates: candidates.map((o) => ({ id: o.id, itemIds: o.itemIds })),
       items: items
         .filter((g) => ids.has(g.id))
-        .map((g) => ({ id: g.id, category: g.category, image: g.image })),
+        .map((g) => ({
+          id: g.id,
+          category: g.category,
+          image: g.image,
+          type: g.type,
+          color: g.color,
+          reviewed: g.reviewed === true,
+        })),
     }),
     signal: signal
       ? AbortSignal.any([signal, AbortSignal.timeout(180_000)])
