@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { House, Shirt, Layers, ScanLine, UserRound, ArrowUpRight, Leaf } from 'lucide-react';
+import { House, Shirt, Layers, ScanLine, UserRound, ArrowUpRight, Sparkles } from 'lucide-react';
 import type { ReactNode } from 'react';
 const nav = [
   { href: '/', label: 'HOME', icon: House },
@@ -16,13 +16,16 @@ export function Shell({ children }: { children: ReactNode }) {
       <aside className="sidebar">
         <Link href="/" className="brand">
           <span className="brand-symbol">
-            <Leaf size={22} />
+            <Sparkles size={22} />
           </span>
           <span>
-            옷의 여유<span className="brand-sub">AI DIGITAL WARDROBE</span>
+            <span className="brand-wordmark">
+              STYL<span>AI</span>
+            </span>
+            <span className="brand-sub">스타일아이 · YOUR WARDROBE STYLIST</span>
           </span>
         </Link>
-        <p className="sidebar-caption">덜 고민하고, 더 나답게.</p>
+        <p className="sidebar-caption">내 옷을 위한, 새로운 시선.</p>
         <nav aria-label="주요 메뉴">
           {nav.map(({ href, label, icon: Icon }) => (
             <Link
@@ -36,14 +39,6 @@ export function Shell({ children }: { children: ReactNode }) {
           ))}
         </nav>
         <div className="sidebar-bottom">
-          <Link href="/demo/start">
-            실제 사진으로 시연 시작
-            <ArrowUpRight size={16} />
-          </Link>
-          <Link href="/demo/evaluation">
-            코디 평가 준비
-            <ArrowUpRight size={16} />
-          </Link>
           <Link href="/insights">
             내 옷장 돌아보기
             <ArrowUpRight size={16} />
@@ -53,20 +48,19 @@ export function Shell({ children }: { children: ReactNode }) {
             <ArrowUpRight size={16} />
           </Link>
           <div className="sidebar-note">
-            <span className="status-dot" />
-            옷장 프로토타입<p>등록·코디 평가는 GPU AI · 날씨·구매 분석은 예시예요.</p>
+            <span className="status-dot" />내 옷에서 시작하는 스타일
+            <p>날씨·구매분석은 현재 체험용 예시입니다.</p>
           </div>
         </div>
       </aside>
       <div className="workspace">
         <header className="topbar">
           <Link href="/" className="mobile-brand">
-            <Leaf size={19} />
-            옷의 여유
+            <Sparkles size={19} />
+            STYLAI
           </Link>
-          <span className="topbar-caption">YOUR WARDROBE, REIMAGINED</span>
+          <span className="topbar-caption">A FRESH LOOK AT WHAT YOU OWN</span>
           <div className="topbar-right">
-            <span className="prototype-tag">PROTOTYPE</span>
             <Link href="/profile" className="profile-link" aria-label="마이페이지">
               <UserRound size={19} />
             </Link>

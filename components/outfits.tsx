@@ -79,9 +79,6 @@ export function Outfits() {
             </button>
           ))}
         </div>
-        <Link className="text-button" href="/demo/outfits">
-          예시 옷장 AI 데모
-        </Link>
       </div>
       {anchor && (
         <div className="anchor-strip">

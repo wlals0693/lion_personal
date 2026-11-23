@@ -3059,3 +3059,20 @@ hr {
 .evaluation-summary ul { list-style:none; padding-left:0; }
 .evaluation-summary details { color:var(--gray); font-size:12px; }
 .evaluation-summary .evaluation-badges { margin-top:4px; }
+
+/* STYLAI: live service presentation */
+.brand-wordmark { font-family:Arial,sans-serif; font-size:27px; font-weight:600; letter-spacing:4px; line-height:1.2; }
+.brand-wordmark > span { color:var(--sage); font-weight:400; }
+.brand-sub { font-size:8px; letter-spacing:.7px; margin-top:7px; line-height:1.7; }
+.sidebar-caption { margin-top:24px; margin-bottom:36px; }
+.sidebar-note { font-size:11px; line-height:1.8; }
+.home-action-bar { display:flex; justify-content:space-between; align-items:center; gap:20px; border-top:1px solid var(--line); padding:18px 0 8px; color:var(--gray); font-size:12px; }
+.outfit-card { background:var(--paper); border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+.outfit-card-copy { padding:22px; }
+.outfit-card-copy h3 { font-size:15px; line-height:1.7; font-weight:500; }
+.ai-recommendation > .outfit-grid { gap:24px; }
+.evaluation-summary > p { color:var(--gray); font-size:12px; }
+.editor-panel { border-radius:10px; }
+.registration-steps { font-size:11px; letter-spacing:.3px; }
+.topbar { background:var(--ivory); }
+@media(max-width:640px) { .home-action-bar { align-items:flex-start; } .home-action-bar > span { max-width:180px; } .outfit-card-copy { padding:18px; } }

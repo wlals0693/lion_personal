@@ -34,7 +34,7 @@ export function Auth() {
       <section className="auth-editorial">
         <div className="auth-brand">
           <Leaf size={26} />
-          옷의 여유
+          STYLAI
         </div>
         <div className="auth-copy">
           <p className="eyebrow">A LITTLE LESS, A LITTLE MORE YOU</p>
@@ -54,7 +54,7 @@ export function Auth() {
         <span className="auth-footnote">YOUR EVERYDAY, THOUGHTFULLY DRESSED.</span>
       </section>
       <section className="auth-form">
-        <span className="prototype-tag">INTERACTIVE PROTOTYPE</span>
+        <span className="eyebrow">YOUR PERSONAL WARDROBE STYLIST</span>
         <div>
           <p className="eyebrow">WELCOME TO YOUR WARDROBE</p>
           <h2>{signup ? '나만의 옷장을 시작해요' : '다시 만나 반가워요'}</h2>
@@ -168,7 +168,7 @@ export function Onboarding() {
       <div className="onboarding-top">
         <span className="auth-brand">
           <Leaf size={23} />
-          옷의 여유
+          STYLAI
         </span>
         <span className="subtle">0{step} / 02</span>
       </div>

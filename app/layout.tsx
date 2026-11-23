@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { StoreProvider } from '@/components/store';
 import './globals.css';
 export const metadata: Metadata = {
-  title: '옷의 여유 — AI 디지털 옷장',
+  title: 'STYLAI 스타일아이 — 나의 AI 옷장',
   description:
     '내 옷의 가능성을 발견하는 AI 디지털 옷장 체험. 등록부터 코디, 착용 기록과 구매 분석까지.',
   icons: { icon: '/icon.svg' },

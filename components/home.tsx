@@ -46,6 +46,12 @@ export function Home() {
           </div>
         </div>
       </div>
+      <div className="home-action-bar">
+        <span>내 옷에서 시작하는 오늘의 스타일</span>
+        <Link className="text-button" href="/wardrobe/new">
+          ＋ 옷 등록하기
+        </Link>
+      </div>
       {outfit ? (
         <section className="home-hero">
           <div className="hero-copy">
