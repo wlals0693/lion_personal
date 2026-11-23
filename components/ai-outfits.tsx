@@ -51,6 +51,7 @@ export function AiOutfitEvaluator({
   demo = false,
   likes = [],
   onLike,
+  onResults,
 }: {
   items: Garment[];
   occasion: string;
@@ -59,6 +60,7 @@ export function AiOutfitEvaluator({
   demo?: boolean;
   likes?: string[];
   onLike?: (id: string) => void;
+  onResults?: (outfits: Outfit[]) => void;
 }) {
   const [candidateOffset, setCandidateOffset] = useState(0);
   const candidates = useMemo(
@@ -93,6 +95,7 @@ export function AiOutfitEvaluator({
       const result = await evaluateOutfits(items, candidates, occasion, current.signal);
       if (current.signal.aborted) return;
       setRanked(result.outfits);
+      onResults?.(result.outfits);
       setSeconds((performance.now() - start) / 1000);
       onEvaluated?.(true);
     } catch (e) {
@@ -267,6 +270,7 @@ export function OutfitDemo() {
   if (!catalog)
     return (
       <main className="outfit-demo">
+        <Link href="/demo/evaluation">GPU 없이 코디 평가 준비 →</Link>
         <h1>테스트 의류 자료를 불러오고 있어요</h1>
         {catalogError ? (
           <ErrorBox message={catalogError} retry={() => setReload((v) => v + 1)} />
@@ -278,6 +282,9 @@ export function OutfitDemo() {
   return (
     <main className="outfit-demo">
       <header>
+        <Link href="/demo/evaluation" className="button secondary">
+          사람 코디 평가 준비
+        </Link>
         <Link href="/login" className="text-button">
           내 옷장으로 이동 →
         </Link>

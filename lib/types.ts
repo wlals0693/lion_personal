@@ -102,6 +102,7 @@ export interface Profile {
   region: string;
 }
 export interface WardrobeState {
+  evaluatedOutfits?: Outfit[];
   version: 1;
   loggedIn: boolean;
   onboarded: boolean;

@@ -36,6 +36,14 @@ export function Shell({ children }: { children: ReactNode }) {
           ))}
         </nav>
         <div className="sidebar-bottom">
+          <Link href="/demo/start">
+            실제 사진으로 시연 시작
+            <ArrowUpRight size={16} />
+          </Link>
+          <Link href="/demo/evaluation">
+            코디 평가 준비
+            <ArrowUpRight size={16} />
+          </Link>
           <Link href="/insights">
             내 옷장 돌아보기
             <ArrowUpRight size={16} />
@@ -46,7 +54,7 @@ export function Shell({ children }: { children: ReactNode }) {
           </Link>
           <div className="sidebar-note">
             <span className="status-dot" />
-            옷장 프로토타입<p>사진 등록은 AI 분석, 코디·날씨는 예시예요.</p>
+            옷장 프로토타입<p>등록·코디 평가는 GPU AI · 날씨·구매 분석은 예시예요.</p>
           </div>
         </div>
       </aside>

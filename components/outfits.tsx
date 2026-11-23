@@ -7,7 +7,7 @@ import type { Outfit } from '@/lib/types';
 import { wardrobeApi } from '@/lib/mock-api';
 import { localDate, toggleValue, uid } from '@/lib/utils';
 import { useWardrobe } from './store';
-import { AiOutfitEvaluator } from './ai-outfits';
+import { AiOutfitEvaluator, EvaluationSummary } from './ai-outfits';
 import {
   Empty,
   ErrorBox,
@@ -94,6 +94,7 @@ export function Outfits() {
         occasion={occasion}
         anchor={anchor}
         onEvaluated={setAiActive}
+        onResults={(outfits) => update((s) => ({ ...s, evaluatedOutfits: outfits }))}
         likes={state.likes}
         onLike={(id) => update((s) => ({ ...s, likes: toggleValue(s.likes, id) }))}
       />
@@ -195,6 +196,9 @@ export function OutfitDetail() {
     occasion,
     title: '내 옷으로 완성하는 오늘',
   };
+  const evaluated = state.evaluatedOutfits?.find(
+    (o) => o.occasion === occasion && o.itemIds.join(',') === ids.join(','),
+  );
   const planned = state.records.find(
     (r) => r.date === localDate() && r.itemIds.join(',') === ids.join(','),
   );
@@ -221,7 +225,11 @@ export function OutfitDetail() {
       <div className="outfit-detail-layout">
         <OutfitCollage outfit={outfit} items={state.garments} large />
         <section>
-          <MockLabel>코디 구성 상세 · AI 판단은 추천 목록에서 확인</MockLabel>
+          {evaluated?.evaluation ? (
+            <EvaluationSummary value={evaluated.evaluation} />
+          ) : (
+            <MockLabel>아직 AI가 평가하지 않은 코디 구성이에요</MockLabel>
+          )}
           <p className="eyebrow">{occasion}</p>
           <h1>{outfit.title}</h1>
           <p className="subtle">익숙한 옷도 함께 입는 조합에 따라 새로워져요.</p>

@@ -15,7 +15,15 @@ import { friendlyDate, localDate } from '@/lib/utils';
 import { AddButton, Empty, GarmentCard, MockLabel, OutfitCollage, SectionHeading } from './ui';
 export function Home() {
   const { state } = useWardrobe();
-  const outfit = generateOutfits(state.garments, '일상·산책')[0];
+  const outfit =
+    state.evaluatedOutfits?.find(
+      (o) =>
+        o.evaluation &&
+        o.itemIds.every((id) => state.garments.some((g) => g.id === id && !g.excluded)),
+    ) || generateOutfits(state.garments, '일상·산책')[0];
+  const outfitLink = outfit?.evaluation
+    ? `/outfits/detail?items=${encodeURIComponent(outfit.itemIds.join(','))}&occasion=${encodeURIComponent(outfit.occasion)}`
+    : '/outfits';
   const recent = [...state.records].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 2);
   const firstName = state.profile.nickname || '나';
   return (
@@ -51,13 +59,17 @@ export function Home() {
               오늘의 옷 고민은 잠시 내려놓고,
               <br />내 옷장에서 시작해보세요.
             </p>
-            <MockLabel>예시 코디 · 실제 추천 모델 미연결</MockLabel>
-            <Link className="button primary" href="/outfits">
+            <MockLabel>
+              {outfit.evaluation
+                ? '내 옷 사진으로 AI가 평가한 코디'
+                : '평가 전 코디 후보 · 코디 화면에서 AI 평가'}
+            </MockLabel>
+            <Link className="button primary" href={outfitLink}>
               오늘의 코디 보기
               <ArrowRight size={17} />
             </Link>
           </div>
-          <Link className="hero-visual" href="/outfits" aria-label="오늘의 예시 코디 보기">
+          <Link className="hero-visual" href={outfitLink} aria-label="오늘의 코디 보기">
             <OutfitCollage outfit={outfit} items={state.garments} large />
             <span className="hero-visual-caption">01 / YOUR EVERYDAY COMBINATION</span>
           </Link>

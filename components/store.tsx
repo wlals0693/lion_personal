@@ -36,6 +36,18 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   }, [toast]);
   function update(transform: (s: WardrobeState) => WardrobeState) {
     const next = transform(current.current);
+    // An edited, deleted or excluded garment invalidates its previous AI judgement.
+    if (next.garments !== current.current.garments) {
+      next.evaluatedOutfits = (next.evaluatedOutfits || []).filter((o) =>
+        o.itemIds.every((id) => {
+          const before = current.current.garments.find((g) => g.id === id);
+          const after = next.garments.find((g) => g.id === id);
+          return (
+            before && after && !after.excluded && JSON.stringify(before) === JSON.stringify(after)
+          );
+        }),
+      );
+    }
     try {
       wardrobeRepository.save(next);
       current.current = next;

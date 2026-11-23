@@ -13,6 +13,8 @@ import { Insights } from './insights';
 import { Profile } from './profile';
 import { Empty, ErrorBox, Loading } from './ui';
 import { OutfitDemo } from './ai-outfits';
+import { BlindEvaluation } from './blind-evaluation';
+import { DemoStart } from './demo-start';
 const subscribeHydration = () => () => {};
 export function Application() {
   // A parent store effect can finish before this streamed boundary hydrates.
@@ -25,7 +27,14 @@ export function Application() {
   const path = usePathname();
   const router = useRouter();
   useEffect(() => {
-    if (!ready || error || path === '/demo/outfits') return;
+    if (
+      !ready ||
+      error ||
+      path === '/demo/outfits' ||
+      path === '/demo/evaluation' ||
+      path === '/demo/start'
+    )
+      return;
     if (!state.loggedIn && path !== '/login') router.replace('/login');
     else if (state.loggedIn && !state.onboarded && path !== '/onboarding')
       router.replace('/onboarding');
@@ -34,6 +43,8 @@ export function Application() {
   }, [ready, error, state.loggedIn, state.onboarded, path, router]);
   if (!ready || !hydrated) return <Loading />;
   if (path === '/demo/outfits') return <OutfitDemo />;
+  if (path === '/demo/evaluation') return <BlindEvaluation />;
+  if (path === '/demo/start') return <DemoStart />;
   if (error)
     return (
       <main className="onboarding">

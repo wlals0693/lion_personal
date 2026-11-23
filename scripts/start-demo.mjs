@@ -9,7 +9,8 @@ const modelRoot =
 const python = process.env.WARDROBE_PYTHON || path.join(modelRoot, '.venv/Scripts/python.exe');
 if (!existsSync(python))
   throw new Error('GPU Python을 찾지 못했어요. WARDROBE_PYTHON을 확인해주세요.');
-console.log('AI 코디 데모: http://127.0.0.1:3000/demo/outfits');
+console.log('전체 서비스 시연: http://127.0.0.1:3000/demo/start');
+console.log('연구용 코디 데모: http://127.0.0.1:3000/demo/outfits');
 console.log('GPU gateway ready와 웹 Ready 표시 후 접속하세요. 종료: Ctrl+C');
 const shutdownToken = randomBytes(32).toString('hex');
 const children = [
