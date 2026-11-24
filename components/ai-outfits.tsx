@@ -25,12 +25,23 @@ export function EvaluationSummary({ value }: { value: OutfitEvaluation }) {
           <li key={i}>
             {reason.observation}
             {reason.evidence && <small className="evidence-note">관찰 · {reason.evidence}</small>}
+            {reason.sources && (
+              <details>
+                <summary>판단에 사용한 자료</summary>
+                <p>{reason.principle}</p>
+                {reason.sources.map(source => (
+                  <p key={source.id}><a href={source.url} target="_blank" rel="noreferrer">{source.title}</a><small> · {source.locator}</small></p>
+                ))}
+                <small>자료는 일반적인 디자인 원리를 설명해요. 이 옷에 적용한 이유는 AI의 해석이며 전문가 검증 결과가 아니에요.</small>
+              </details>
+            )}
           </li>
         ))}
       </ul>
       <p>
         <b>상황</b> · {value.contextReason}
       </p>
+      {value.protocol === 'outfit-v3-sources' && <small className="evidence-note">사진 관찰 → 자료 기준 적용 · {value.groundingStatus === 'linked' ? '근거 연결됨' : '근거 부족으로 보류'}{value.metadataConflict ? ' · 등록 정보와 사진 확인 필요' : ''}</small>}
       <details>
         <summary>AI 판단의 범위</summary>
         <ul>

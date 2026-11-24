@@ -1,4 +1,35 @@
 import type { Garment, Outfit, OutfitEvaluation } from './types';
+import knowledge from '../scripts/outfit_knowledge.json';
+
+function validGrounding(v: Record<string, unknown>): boolean {
+  if (v.protocol !== 'outfit-v3-sources') return true;
+  if (v.knowledgeVersion !== knowledge.version ||
+      !['recommend','hold','reject'].includes(String(v.decision)) ||
+      !['linked','insufficient'].includes(String(v.groundingStatus)) ||
+      !Array.isArray(v.observations) || !Array.isArray(v.reasons)) return false;
+  const facts = v.observations as { id: string; itemId: string; aspect: string; fact: string }[];
+  if (facts.length > 12 || new Set(facts.map(f => f?.id)).size !== facts.length || facts.some(f =>
+    !f || typeof f.id !== 'string' || typeof f.itemId !== 'string' ||
+    !['color','pattern','texture','shape'].includes(f.aspect) || typeof f.fact !== 'string' || !f.fact.trim() || f.fact.length > 100)) return false;
+  const reasons = v.reasons as OutfitEvaluation['reasons'];
+  const linked = reasons.filter(r => r?.criterionId);
+  if (v.groundingStatus === 'insufficient') return v.decision === 'hold' && linked.length === 0;
+  return linked.length === reasons.length && linked.length > 0 && linked.every(r => {
+    const criterion = knowledge.criteria.find(c => c.id === r.criterionId);
+    const refs = r.evidenceIds;
+    if (!criterion || r.principle !== criterion.principle || !refs || refs.length < 2 || refs.length > 6 ||
+      new Set(refs).size !== refs.length || !['support','conflict','uncertain'].includes(String(r.effect)) ||
+      !r.itemIds || new Set(r.itemIds).size < 2 || !r.sources || r.sources.length !== criterion.sourceIds.length) return false;
+    const evidence = refs.map(id => facts.find(f => f.id === id));
+    if (evidence.some(f => !f || !criterion.aspects.includes(f.aspect))) return false;
+    const itemIds = new Set(evidence.map(f => f!.itemId));
+    return itemIds.size === r.itemIds.length && r.itemIds.every(id => itemIds.has(id)) &&
+      r.sources.every((s, i) => {
+        const known = knowledge.sources.find(k => k.id === criterion.sourceIds[i]);
+        return known && s.id === known.id && s.url === known.url && s.title === known.title && s.locator === known.locator;
+      }) && (v.decision !== 'recommend' || r.effect === 'support');
+  });
+}
 export const visualLabels = { cohesive: '조화로움', ordinary: '무난함', review: '확인 필요' };
 export const contextLabels = {
   suitable: '상황에 적합',
@@ -81,6 +112,7 @@ export function isOutfitEvaluation(value: unknown): value is OutfitEvaluation {
   const v = value as Record<string, unknown>;
   const shortText = (s: unknown) => typeof s === 'string' && s.trim().length > 0 && s.length <= 300;
   return (
+    validGrounding(v) &&
     (v.protocol !== 'outfit-v2-evidence' ||
       (['recommend', 'hold', 'reject'].includes(String(v.decision)) &&
         Array.isArray(v.reasons) &&
@@ -136,7 +168,7 @@ export async function evaluateOutfits(
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      protocol: 'outfit-v2-evidence',
+      protocol: 'outfit-v3-sources',
       occasion,
       candidates: candidates.map((o) => ({ id: o.id, itemIds: o.itemIds })),
       items: items
@@ -160,7 +192,9 @@ export async function evaluateOutfits(
     throw new Error('코디 응답이 누락됐어요.');
   const evaluated = candidates.map((candidate) => {
     const matches = data.results.filter((r: { id: string }) => r.id === candidate.id);
-    if (matches.length !== 1 || !isOutfitEvaluation(matches[0].evaluation))
+    if (matches.length !== 1 || !isOutfitEvaluation(matches[0].evaluation) ||
+      matches[0].evaluation.protocol !== 'outfit-v3-sources' ||
+      matches[0].evaluation.observations?.some((f: { itemId: string }) => !candidate.itemIds.includes(f.itemId)))
       throw new Error('코디 응답을 확인하지 못했어요.');
     return { ...candidate, evaluation: matches[0].evaluation };
   });

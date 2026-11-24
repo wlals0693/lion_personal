@@ -28,6 +28,9 @@ def validate_evaluation(value):
     return {key:value[key] for key in ['visual','context','reasons','contextReason','limitations']}
 
 def evaluate_batch(payload, llama):
+    if isinstance(payload, dict) and payload.get('protocol') == 'outfit-v3-sources':
+        from outfit_evaluation_v3 import evaluate_v3
+        return evaluate_v3(payload, llama)
     if isinstance(payload, dict) and payload.get('protocol') == 'outfit-v2-evidence':
         from outfit_evaluation_v2 import evaluate_v2
         return evaluate_v2(payload, llama)

@@ -105,7 +105,8 @@ export async function POST(request: Request) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             protocol:
-              input.protocol === 'outfit-v2-evidence' ? input.protocol : 'outfit-v1-contact-sheet',
+              ['outfit-v2-evidence', 'outfit-v3-sources'].includes(input.protocol)
+                ? input.protocol : 'outfit-v1-contact-sheet',
             occasion: input.occasion,
             items,
             candidates: input.candidates,
@@ -132,7 +133,9 @@ export async function POST(request: Request) {
       new Set(result.results.map((r: { id: string }) => r.id)).size !== seen.size ||
       !result.results.every(
         (r: { id: string; evaluation: unknown }) =>
-          seen.has(r.id) && isOutfitEvaluation(r.evaluation),
+          seen.has(r.id) && isOutfitEvaluation(r.evaluation) &&
+          (input.protocol !== 'outfit-v3-sources' ||
+            (r.evaluation as { protocol?: string }).protocol === 'outfit-v3-sources'),
       )
     )
       return Response.json(

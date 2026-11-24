@@ -2,6 +2,8 @@
 import { chromium, expect } from '@playwright/test';
 import { readdir, mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { readFileSync } from 'node:fs';
+const knowledge = JSON.parse(readFileSync(new URL('./outfit_knowledge.json', import.meta.url), 'utf8'));
 const base = process.env.WARDROBE_WEB_URL || 'http://127.0.0.1:3012';
 const photos = process.env.WARDROBE_DEMO_PHOTOS || 'test-results/demo_today_ready';
 const realGpu = process.argv.includes('--gpu');
@@ -19,7 +21,14 @@ try {
   if (!realGpu) await page.route('**/api/outfits/evaluate', async route => {
     const body = route.request().postDataJSON();
     if (body.items.length < 3 || body.candidates.length === 0) throw new Error('Missing real wardrobe payload');
-    await route.fulfill({ json: { seconds: 0.01, results: body.candidates.map(c => ({ id: c.id, evaluation: { visual: 'cohesive', context: 'suitable', reasons: [{ aspect: 'overall', observation: '테스트 응답으로 흐름만 검증합니다.' }], contextReason: '상황 응답 테스트', limitations: ['실제 GPU 판단이 아닙니다.'] } })) } });
+    await route.fulfill({ json: { seconds: 0.01, results: body.candidates.map(c => ({ id: c.id, evaluation: {
+      protocol:'outfit-v3-sources',knowledgeVersion:knowledge.version,groundingStatus:'linked',decision:'recommend',
+      observations:c.itemIds.map((id,i)=>({id:`e${i+1}`,itemId:id,aspect:'pattern',fact:'테스트용 무지 관찰'})),
+      visual: 'cohesive', context: 'suitable', reasons: [{ aspect: 'overall', observation: '테스트 응답으로 흐름만 검증합니다.',
+        criterionId:'emphasis',principle:knowledge.criteria[0].principle,effect:'support',
+        evidenceIds:c.itemIds.map((_,i)=>`e${i+1}`),itemIds:c.itemIds,
+        sources:knowledge.criteria[0].sourceIds.map(id=>knowledge.sources.find(s=>s.id===id))
+      }], contextReason: '상황 응답 테스트', limitations: ['실제 GPU 판단이 아닙니다.'] } })) } });
   });
   await page.goto(`${base}/demo/start`);
   if (realGpu) {
@@ -51,6 +60,15 @@ try {
   await expect(page).toHaveURL(/\/outfits\/detail/);
   await expect(page.getByTestId('outfit-evaluation')).toBeVisible();
   await page.reload(); await expect(page.getByTestId('outfit-evaluation')).toBeVisible();
+  if (!realGpu) {
+    await page.getByText('판단에 사용한 자료', { exact: true }).first().click();
+    await expect(page.getByRole('link', { name: /The Museum at FIT/ }).first()).toBeVisible();
+    await page.setViewportSize({ width: 390, height: 844 });
+    if (await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)) throw new Error('Source details overflow on mobile');
+    await mkdir('test-results', { recursive: true });
+    await page.screenshot({ path: 'test-results/source-details-mobile.png', fullPage: true });
+    await page.setViewportSize({ width: 1280, height: 900 });
+  }
   await page.getByRole('button', { name: '오늘 입을래요' }).click();
   await page.getByRole('button', { name: '기록 저장', exact: true }).click();
   await page.goto(base);

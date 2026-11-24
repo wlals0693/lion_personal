@@ -1,0 +1,15 @@
+{
+  "version": "2026-11-24.1",
+  "sources": [
+    {"id":"fit-design","title":"The Museum at FIT · Elements and Principles of Fashion Design","url":"https://www.fitnyc.edu/museum/documents/elements-and-principles-of-fashion-design.pdf","kind":"fashion-education","locator":"PDF pp. 3–4: Color, Emphasis, Rhythm","checked":"2026-11-24","summary":"색의 명도·강도, 강조와 반복을 설명하는 교육 자료. 특정 코디의 성공을 보장하는 실험 결과는 아니다."},
+    {"id":"usu-design","title":"Utah State University Extension · Design Principles for Clothing and Textiles","url":"https://extension.usu.edu/research/principles-of-design","kind":"peer-reviewed-education","locator":"Emphasis; Rhythm; Harmony; Conclusion (2016)","checked":"2026-11-24","summary":"의복과 앙상블의 강조·반복·조화를 설명한다. 조화의 판단에는 관찰자의 주관이 개입한다고 명시한다."},
+    {"id":"outfit-transformer","title":"OutfitTransformer · WACV 2023","url":"https://arxiv.org/abs/2204.04812","kind":"research-method","locator":"§3.1; §4.5","checked":"2026-11-24","summary":"전체 조합 평가와 사람 평가를 설계할 때 참고했다. 본 서비스는 논문의 학습 모델을 재현한 것이 아니다."},
+    {"id":"pfe","title":"Deciphering Compatibility Relationships with Textual Descriptions via Extraction and Explanation","url":"https://arxiv.org/abs/2312.11554","kind":"research-method","locator":"§3: Stage I / Stage II; §4: Human Evaluation","checked":"2026-11-24","summary":"특징 추출과 설명 생성의 분리를 참고했다. PFE 데이터 학습이나 논문의 성능 재현을 수행하지 않았다."}
+  ],
+  "criteria": [
+    {"id":"emphasis","label":"시선의 중심","aspects":["color","pattern","shape"],"sourceIds":["fit-design","usu-design"],"principle":"색 대비나 눈에 띄는 디테일은 시선의 중심을 만들 수 있다.","application":"둘 이상의 옷에서 시선을 끄는 요소와 이를 받쳐주는 요소를 구체적으로 확인한다.","limits":"여러 패턴이나 강한 대비 자체는 충돌의 증거가 아니다. 한 개의 포인트만 허용한다는 규칙이 아니다."},
+    {"id":"rhythm","label":"반복되는 연결 요소","aspects":["color","pattern","texture","shape"],"sourceIds":["fit-design","usu-design"],"principle":"색·패턴 등의 반복은 디자인의 시각적 흐름을 만들 수 있다.","application":"서로 다른 옷의 어떤 구체적인 요소가 반복되는지 확인하고 조합에 미치는 영향을 평가한다.","limits":"같은 색이 있다는 사실만으로 전체 코디의 적합성을 확정하지 않는다. 브랜드 로고의 동일성은 근거로 쓰지 않는다."},
+    {"id":"ensemble","label":"전체 조합의 연결","aspects":["color","pattern","texture","shape"],"sourceIds":["usu-design"],"principle":"앙상블의 요소는 전체적으로 함께 작동해야 하며 조화의 평가는 관찰자의 주관을 포함한다.","application":"최소 두 의류의 관계를 설명하되 최종 판단은 모든 의류를 함께 고려한다.","limits":"색이 무난하다는 말만으로 추천하지 않는다. 실제 착용 비율·체형 보완·편안함은 분리된 사진에서 판단하지 않는다."}
+  ],
+  "scope": "교육 원리를 코디 평가에 적용하는 실험이다. criteria.application과 limits는 서비스의 제한적 운영 해석이며 원문 인용이나 검증된 코디 정답이 아니다. 출처는 원리를 뒷받침하며 개별 사진 판정은 AI 해석이다."
+}

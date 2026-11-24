@@ -83,7 +83,11 @@ export interface Outfit {
   evaluation?: OutfitEvaluation;
 }
 export interface OutfitEvaluation {
-  protocol?: 'outfit-v2-evidence';
+  protocol?: 'outfit-v2-evidence' | 'outfit-v3-sources';
+  knowledgeVersion?: string;
+  groundingStatus?: 'linked' | 'insufficient';
+  metadataConflict?: boolean;
+  observations?: { id: string; itemId: string; aspect: string; fact: string }[];
   decision?: 'recommend' | 'hold' | 'reject';
   visual: 'cohesive' | 'ordinary' | 'review';
   context: 'suitable' | 'uncertain' | 'unsuitable';
@@ -92,6 +96,11 @@ export interface OutfitEvaluation {
     observation: string;
     evidence?: string;
     itemIds?: string[];
+    criterionId?: string;
+    principle?: string;
+    effect?: 'support' | 'conflict' | 'uncertain';
+    evidenceIds?: string[];
+    sources?: { id: string; title: string; url: string; locator: string }[];
   }[];
   contextReason: string;
   limitations: string[];
