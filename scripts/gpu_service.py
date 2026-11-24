@@ -128,11 +128,19 @@ class Handler(BaseHTTPRequestHandler):
             self.reply(502, {'error':'AI 코디 평가를 완료하지 못했어요. 다시 시도해주세요.'})
         finally: LOCK.release()
 
+def runtime_paths(model_root=MODEL_ROOT, platform=None):
+    platform = os.name if platform is None else platform
+    executable = 'llama-server.exe' if platform == 'nt' else 'llama-server'
+    exe = Path(os.environ.get('WARDROBE_LLAMA_BIN', str(model_root / 'runtime' / executable))).expanduser().resolve()
+    return exe, model_root / 'models/Qwen3VL-4B-Instruct-Q4_K_M.gguf', model_root / 'models/mmproj-Qwen3VL-4B-Instruct-F16.gguf'
+
 def main():
     logs = ROOT / '.logs'; logs.mkdir(exist_ok=True)
-    exe = MODEL_ROOT / 'runtime/llama-server.exe'
-    args = [str(exe), '-m',str(MODEL_ROOT/'models/Qwen3VL-4B-Instruct-Q4_K_M.gguf'),
-        '--mmproj',str(MODEL_ROOT/'models/mmproj-Qwen3VL-4B-Instruct-F16.gguf'),
+    exe, model, projector = runtime_paths()
+    for file in (exe, model, projector):
+        if not file.is_file(): raise FileNotFoundError(f'Required GPU runtime/model file not found: {file}')
+    args = [str(exe), '-m',str(model),
+        '--mmproj',str(projector),
         '-ngl','99','-c','4096','--host','127.0.0.1','--port',str(LLAMA_PORT),'--parallel','1',
         '--no-warmup','-lv','4','--device','CUDA0','--mmproj-device','CUDA0','--no-cache-prompt','-b','128','-ub','128']
     gateway = ThreadingHTTPServer(('127.0.0.1', GATEWAY_PORT), Handler)

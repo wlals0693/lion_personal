@@ -1,4 +1,6 @@
 node_modules/
+.venv/
+.gpu/
 .npm-cache/
 .playwright/
 scripts/__pycache__/
